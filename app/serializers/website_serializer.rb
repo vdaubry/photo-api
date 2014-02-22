@@ -1,6 +1,10 @@
 class WebsiteSerializer < ActiveModel::Serializer
   attributes :id, :name, :url, :last_scrapping_date, :images_to_sort_count, :latest_post_id
 
+  def id
+    object.id.to_s
+  end
+
   def last_scrapping_date
     if object.scrappings.blank?
       "-"

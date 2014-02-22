@@ -1,0 +1,24 @@
+website1:
+  url: https://whatboyswant.com/
+  username: colionel
+  password: belgarath
+  link_reg_exp: /babes/show/
+  top_link: Top babes
+  category1: Topless babes
+  category2: Bathroom Babes
+  category3: Beach & Bikini Babes
+  category4: Bottomless Babes
+  category5: Flashing Babes
+  category6: Lingerie Babes
+  category7: Naked Babes
+  category8: Non-Nude Babes
+  category9: Party Babes
+  category10: Selfshots
+  category11: Tight Asses
+  category12: Webcam Girls
+
+website2:
+  url: http://www.wikifeet.com/celebs
+  base_url: "http://www.wikifeet.com"
+  excluded_urls: ["passreset", "signup", "celebs", "videos", "requests", "upload", "contact", "publicfeet", "pwstatement.html", "ourdisclaimer"]
+  post_url: http://www.wikifeet.com/perl/ajax.fpl
