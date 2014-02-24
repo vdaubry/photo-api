@@ -19,7 +19,7 @@ class WebsiteSerializer < ActiveModel::Serializer
 
   def latest_post_id
     lp = object.latest_post
-    lp.nil? ? nil : lp._id.to_i
+    lp.nil? ? nil : lp._id.to_s
   end
 
 end

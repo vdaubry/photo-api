@@ -38,11 +38,11 @@ describe WebsiteSerializer do
 
     context "has latest post" do
       it "sets latest post id" do
-        post = FactoryGirl.create(:post, :website => website, :id => 123)
+        post = FactoryGirl.create(:post, :website => website, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
         website.stubs(:latest_post).returns(post)
         serializer = WebsiteSerializer.new website
 
-        JSON.parse(serializer.to_json)["website"]["latest_post_id"].should == 123
+        JSON.parse(serializer.to_json)["website"]["latest_post_id"].should == "506144650ed4c08d84000001"
       end
     end
 
