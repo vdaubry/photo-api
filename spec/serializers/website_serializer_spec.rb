@@ -3,16 +3,17 @@ require 'spec_helper'
 describe WebsiteSerializer do
 
   it "serializes a website" do
-    serializer = WebsiteSerializer.new FactoryGirl.build(:website, :url => "some url", :name => "some name", :id => 123)
+    website = FactoryGirl.create(:website, :url => "some url", :name => "some name", :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
+    serializer = WebsiteSerializer.new website
 
-    expect(serializer.to_json).to eql('{"website":{"id":123,"name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null}}')
+    expect(serializer.to_json).to eql('{"website":{"id":"506144650ed4c08d84000001","name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null}}')
   end
 
-  it "serializes websites as an array" do
-    websites = FactoryGirl.build_list(:website, 2, :url => "some url", :name => "some name", :id => 123)
+  it "serializes an array of websites" do
+    websites = FactoryGirl.build_list(:website, 2, :url => "some url", :name => "some name", :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
     serializer = ActiveModel::ArraySerializer.new(websites, each_serializer: WebsiteSerializer)
 
-    expect(serializer.to_json).to eql('[{"id":123,"name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null},{"id":123,"name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null}]')
+    expect(serializer.to_json).to eql('[{"id":"506144650ed4c08d84000001","name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null},{"id":"506144650ed4c08d84000001","name":"some name","url":"some url","last_scrapping_date":"-","images_to_sort_count":0,"latest_post_id":null}]')
   end
 
   describe "custom attributes" do
@@ -37,11 +38,11 @@ describe WebsiteSerializer do
 
     context "has latest post" do
       it "sets latest post id" do
-        post = FactoryGirl.create(:post, :website => website, :id => 123)
+        post = FactoryGirl.create(:post, :website => website, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
         website.stubs(:latest_post).returns(post)
         serializer = WebsiteSerializer.new website
 
-        JSON.parse(serializer.to_json)["website"]["latest_post_id"].should == 123
+        JSON.parse(serializer.to_json)["website"]["latest_post_id"].should == "506144650ed4c08d84000001"
       end
     end
 
