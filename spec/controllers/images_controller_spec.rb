@@ -103,6 +103,26 @@ describe ImagesController do
 
       delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
     end
+
+    context "has next post" do
+      it "renders next post id" do
+        Website.any_instance.stubs(:latest_post).returns(to_sort_post)
+
+        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+
+        JSON.parse(response.body)["next_post_id"].should == to_sort_post.id.to_s
+      end
+    end
+
+    context "no next post" do
+      it "renders nil" do
+        Website.any_instance.stubs(:latest_post).returns(nil)
+
+        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+
+        JSON.parse(response.body)["next_post_id"].should == nil
+      end
+    end
   end
 
   describe "PUT redownload" do
