@@ -17,7 +17,10 @@ class ImagesController < ApplicationController
       @images = @website.images.where(:status => status).desc(:updated_at).page(params[:page])
     end
 
-    respond_with @images, :each_serializer => ImageSerializer, :meta => { :to_sort_count => @to_sort_count, :to_keep_count => @to_keep_count, :to_delete_count => @to_delete_count }
+    options = { :to_sort_count => @to_sort_count, :to_keep_count => @to_keep_count, :to_delete_count => @to_delete_count }
+    options.merge!({:post_name => @post.name}) if @post.present?
+
+    respond_with @images, :each_serializer => ImageSerializer, :meta => options
   end
 
   def update
@@ -39,8 +42,8 @@ class ImagesController < ApplicationController
   end
 
   def destroy_all
-    if params["image"] && params["image"]["ids"]
-      @website.images.where(:_id.in => params["image"]["ids"]).update_all(
+    if params["ids"]
+      @website.images.where(:_id.in => params["ids"]).update_all(
           status: Image::TO_DELETE_STATUS
       ) 
     end

@@ -92,7 +92,7 @@ describe ImagesController do
     it "updates image status to delete status" do
       image2 = FactoryGirl.create(:image, :status => Image::TO_SORT_STATUS, :post => to_sort_post, :website => website)
 
-      delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+      delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
 
       to_sort_image.reload.status.should == Image::TO_DELETE_STATUS
       image2.reload.status.should == Image::TO_SORT_STATUS
@@ -101,14 +101,14 @@ describe ImagesController do
     it "calls check status of post" do
       Post.any_instance.expects(:check_status!).once
 
-      delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+      delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
     end
 
     context "has next post" do
       it "renders next post id" do
         Website.any_instance.stubs(:latest_post).returns(to_sort_post)
 
-        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
 
         JSON.parse(response.body)["next_post_id"].should == to_sort_post.id.to_s
       end
@@ -118,7 +118,7 @@ describe ImagesController do
       it "renders nil" do
         Website.any_instance.stubs(:latest_post).returns(nil)
 
-        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "image" => {"ids" => [to_sort_image.id]}
+        delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
 
         JSON.parse(response.body)["next_post_id"].should == nil
       end
