@@ -1,5 +1,9 @@
 PhotoDownloader::Application.routes.draw do
   resources :websites do
+    collection do
+      get 'search'
+    end
+
     resources :posts, :only => :destroy do
       resources :images do
         member do
