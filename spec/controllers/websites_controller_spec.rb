@@ -12,4 +12,15 @@ describe WebsitesController do
     end
   end
 
+  describe "GET search" do
+    it "returns website last scrapping date" do
+      website = FactoryGirl.create(:website, :url => "www.foo.bar")
+      FactoryGirl.create(:scrapping, :website => website, :date => Date.parse("01/01/2010"))
+
+      get 'search', :format => :json, :url => "www.foo.bar"
+
+      JSON.parse(response.body)["website"]["last_scrapping_date"].should == "2010-01-01"
+    end
+  end
+
 end

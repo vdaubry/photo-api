@@ -2,6 +2,7 @@ websites.yml
 forums.yml
 app/assets/images/to_sort/*
 ressources/*
+coverage
 
 *.rbc
 *.sassc

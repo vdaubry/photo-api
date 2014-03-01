@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe Scrapping do
 
-	before :each do
-	end
-
 	describe "save" do
 		context "valid" do 
 			it { FactoryGirl.build(:scrapping).save.should == true }
