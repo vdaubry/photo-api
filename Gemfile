@@ -8,11 +8,13 @@ gem 'rails', '4.0.3'
 
 gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
 
+gem 'mail', git: 'git://github.com/pwnall/mail', :ref => 'd367c0827b10161d7cc42fd22237daa9a7cedafd' #Fixes mail dependency with mimetypes 1.x which conflicts with Mechanize dependency on mimetypes 2.x => https://github.com/mikel/mail/issues/641
+
 gem 'net-sftp', '~> 2.1.2'
 gem 'figaro', '~> 0.7.0'
 gem 'active_model_serializers', '~> 0.8.1'
-gem 'mechanize', '~> 2.7.2'
-gem 'fastimage', '~> 1.6.0'
+gem 'mechanize', '~> 2.7.3'
+gem 'fastimage', '~> 1.6.1'
 gem 'mini_magick', '~> 3.7.0'
 gem 'kaminari', '~> 0.15.1'
 gem 'newrelic_rpm', '~> 3.7.2.195'
