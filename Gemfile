@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
 
+gem 'net-sftp', '~> 2.1.2'
 gem 'figaro', '~> 0.7.0'
 gem 'active_model_serializers', '~> 0.8.1'
 gem 'mechanize', '~> 2.7.2'

@@ -50,10 +50,6 @@ class Image
     "app/assets/images/to_sort/thumbnails/300"
   end
 
-  def self.asset_thumbnail_path
-    "to_sort/thumbnails/300"
-  end  
-
   def image_save_path
     "#{Image.image_path}/#{self[:key]}"
   end
@@ -71,7 +67,7 @@ class Image
     self.height = FastImage.size(image_save_path)[1]
     self.file_size = image_file.size
 
-    if image_invalid?
+    if image_invalid? && !self.persisted?
       destroy
     else
       save!
@@ -95,11 +91,15 @@ class Image
           file << open(source_url, :allow_redirections => :all).read
         end
       end
-      
+
       generate_thumb
       set_image_info
-    rescue StandardError => e
+      Facades::Ftp.new.upload_file(self)
+    rescue Timeout::Error, Errno::ENOENT => e
       Rails.logger.error e.to_s
+    rescue OpenURI::HTTPError => e
+      Rails.logger.error "40x error at url : #{source_url}, deleting image"+e.to_s
+      destroy
     end
   end
 

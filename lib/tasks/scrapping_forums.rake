@@ -241,7 +241,7 @@ namespace :forums do
         browser = Mechanize.new.get(host_url)        
         page_images = browser.images.select {|i| (i.url.to_s.downcase =~ /jpg|jpeg|png/).present? }
         page_images.reject! {|s| %w(rating).any? {|t| s.text.downcase.include?(t)} }
-        page_images.reject! {|s| %w(logo register banner imgbox.png thumbnail adhance thumbs).any? { |w| s.url.to_s.include?(w)}}
+        page_images.reject! {|s| %w(logo register banner imgbox.png thumbnail adhance thumbs snapshot).any? { |w| s.url.to_s.include?(w)}}
         
         pp "No images found at : #{host_url}" if page_images.blank?
         
