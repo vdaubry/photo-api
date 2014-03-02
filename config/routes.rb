@@ -15,6 +15,10 @@ PhotoDownloader::Application.routes.draw do
       end
     end
 
-    resources :images, :only => :index
+    resources :images, :only => :index do
+      collection do  
+        get 'search'
+      end
+    end
   end
 end

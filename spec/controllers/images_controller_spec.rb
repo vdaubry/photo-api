@@ -60,6 +60,25 @@ describe ImagesController do
     end
   end
 
+  describe "GET search" do
+    it "returns image by source_url" do
+      image = FactoryGirl.create(:image, :website => website, :source_url => "www.foo.bar")
+      
+      get 'search', :format => :json, :website_id => website.id, :source_url => "www.foo.bar"
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 1
+      images[0]["source_url"].should == "www.foo.bar"
+    end
+
+    it "returns nil if no image with source_url is found" do
+      get 'search', :format => :json, :website_id => website.id, :source_url => "www.foo.bar"
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 0
+    end
+  end
+
   describe "PUT update" do
     it "updates image status to keep status" do
       put 'update', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => to_sort_image.id, :format => :js

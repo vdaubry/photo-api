@@ -19,7 +19,9 @@ describe WebsitesController do
 
       get 'search', :format => :json, :url => "www.foo.bar"
 
-      JSON.parse(response.body)["website"]["last_scrapping_date"].should == "2010-01-01"
+      websites = JSON.parse(response.body)["websites"]
+      websites.count.should == 1
+      websites[0]["last_scrapping_date"].should == "2010-01-01"
     end
   end
 
