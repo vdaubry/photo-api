@@ -6,7 +6,7 @@ class WebsitesController < ApplicationController
   end
 
   def search
-    website = Website.where(:url => params[:url]).first
-    respond_with website
+    websites = Website.where(:url => params[:url])
+    respond_with websites
   end
 end
