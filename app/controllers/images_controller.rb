@@ -1,5 +1,5 @@
 class ImagesController < ApplicationController
-  before_action :set_website, only: [:index, :update, :destroy, :destroy_all, :redownload]
+  before_action :set_website, only: [:index, :update, :destroy, :destroy_all, :redownload, :search]
   before_action :set_post, only: [:index, :update, :destroy, :destroy_all, :redownload]
   before_action :set_image, only: [:update, :destroy, :redownload]
   respond_to :json
@@ -21,6 +21,11 @@ class ImagesController < ApplicationController
     options.merge!({:post_name => @post.name}) if @post.present?
 
     respond_with @images, :each_serializer => ImageSerializer, :meta => options
+  end
+
+  def search
+    images = @website.images.where(:source_url => params[:source_url]).page(params[:page])
+    respond_with images
   end
 
   def update
