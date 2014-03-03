@@ -4,7 +4,7 @@ PhotoDownloader::Application.routes.draw do
       get 'search'
     end
 
-    resources :posts, :only => :destroy do
+    resources :posts, :only => [:create, :destroy] do
       resources :images do
         member do
           put 'redownload'
