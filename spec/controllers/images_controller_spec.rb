@@ -151,4 +151,70 @@ describe ImagesController do
       put 'redownload', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => to_sort_image.id, :format => :js
     end
   end
+
+  describe "POST create" do
+    let(:valid_params) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+
+    context "valid params" do
+      it "creates an image" do
+        expect {
+          post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => valid_params
+        }.to change{Image.count}.by(1)
+      end
+
+      it "sets image attributes" do
+        post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => valid_params
+
+        saved_image = Image.last
+        saved_image.website.should == website
+        saved_image.post.should == to_sort_post
+        JSON.parse(saved_image.to_json).except("_id", "created_at", "updated_at", "website_id", "post_id").should == {"file_size"=>123678, "height"=>400, "hosting_url"=>"www.foo.bar", "image_hash"=>"AZERTY1234", "key"=>"12345_calinours.png", "source_url"=>"www.foo.bar/img.png", "status"=>"TO_SORT_STATUS", "width"=>400}
+      end
+    end
+
+  #   context "website doesn't exists" do
+  #     it "doesn't create post" do
+  #       expect {
+  #         post 'create', :format => :json, :website_id => 1234, :post => {:name => "toto_11/22"}
+  #         }.to change{Post.count}.by(0)
+  #     end
+
+  #     it "renders 404" do
+  #       post 'create', :format => :json, :website_id => 1234, :post => {:name => "toto_11/22"}
+  #       response.status.should == 404
+  #     end
+  #   end 
+
+  #   context "invalid post" do
+  #     let(:website) { FactoryGirl.create(:website) }
+
+  #     it "doesn't create post" do
+  #       expect {
+  #         post 'create', :format => :json, :website_id => website.id, :name => "toto_11/22"
+  #         }.to change{Post.count}.by(0)
+  #     end
+  #   end 
+
+  #   context "Post already exists for same website" do
+  #     let(:website) { FactoryGirl.create(:website) }
+
+  #     it "doesn't create post" do
+  #       FactoryGirl.create(:post, :website => website, :name => "toto_11/22")
+  #       expect {
+  #         post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
+  #         }.to change{Post.count}.by(0)
+  #     end
+  #   end
+
+  #   context "Post already exists for another website" do
+  #     let(:website) { FactoryGirl.create(:website) }
+
+  #     it "creates post" do
+  #       FactoryGirl.create(:post, :name => "toto_11/22")
+  #       expect {
+  #         post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
+  #         }.to change{Post.count}.by(1)
+  #     end
+  #   end
+  end
 end
