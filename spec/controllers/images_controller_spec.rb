@@ -172,28 +172,41 @@ describe ImagesController do
       end
     end
 
-  #   context "website doesn't exists" do
-  #     it "doesn't create post" do
-  #       expect {
-  #         post 'create', :format => :json, :website_id => 1234, :post => {:name => "toto_11/22"}
-  #         }.to change{Post.count}.by(0)
-  #     end
+    context "website doesn't exists" do
+      it "doesn't create image" do
+        expect {
+          post 'create', :format => :json, :website_id => 1234, :post_id => to_sort_post.id, :image => valid_params
+          }.to change{Image.count}.by(0)
+      end
 
-  #     it "renders 404" do
-  #       post 'create', :format => :json, :website_id => 1234, :post => {:name => "toto_11/22"}
-  #       response.status.should == 404
-  #     end
-  #   end 
+      it "renders 404" do
+        post 'create', :format => :json, :website_id => 1234, :post_id => to_sort_post.id, :image => valid_params
+        response.status.should == 404
+      end
+    end 
 
-  #   context "invalid post" do
-  #     let(:website) { FactoryGirl.create(:website) }
+    context "post doesn't exists" do
+      it "doesn't create image" do
+        expect {
+          post 'create', :format => :json, :website_id => website.id, :post_id => "1234", :image => valid_params
+          }.to change{Image.count}.by(0)
+      end
 
-  #     it "doesn't create post" do
-  #       expect {
-  #         post 'create', :format => :json, :website_id => website.id, :name => "toto_11/22"
-  #         }.to change{Post.count}.by(0)
-  #     end
-  #   end 
+      it "renders 404" do
+        post 'create', :format => :json, :website_id => website.id, :post_id => "1234", :image => valid_params
+        response.status.should == 404
+      end
+    end 
+
+    context "invalid image" do
+      let(:invalid_params) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+
+      it "doesn't create post" do
+        expect {
+          post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => invalid_params
+          }.to change{Image.count}.by(0)
+      end
+    end 
 
   #   context "Post already exists for same website" do
   #     let(:website) { FactoryGirl.create(:website) }

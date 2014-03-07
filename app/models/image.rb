@@ -28,79 +28,79 @@ class Image
   scope :to_keep, -> {where(:status => TO_KEEP_STATUS)}
   scope :to_delete, -> {where(:status => TO_DELETE_STATUS)}
 
-  def build_info(source_url, hosting_url=nil, website, post)
-    self.source_url = source_url
-    self.hosting_url = hosting_url
-    self.website = website
-    self.key = (DateTime.now.to_i.to_s + "_" + File.basename(URI.parse(source_url).path)).gsub('-', '_').gsub(/[^0-9A-Za-z_\.]/, '')
-    self.status = Image::TO_SORT_STATUS
-    self.post = post
-    self
-  end
+  # def build_info(source_url, hosting_url=nil, website, post)
+  #   self.source_url = source_url
+  #   self.hosting_url = hosting_url
+  #   self.website = website
+  #   self.key = (DateTime.now.to_i.to_s + "_" + File.basename(URI.parse(source_url).path)).gsub('-', '_').gsub(/[^0-9A-Za-z_\.]/, '')
+  #   self.status = Image::TO_SORT_STATUS
+  #   self.post = post
+  #   self
+  # end
 
   # def key
   #   Rails.env.development? ? "calinours.jpg" : self[:key]
   # end
 
-  def self.image_path
-    "app/assets/images/to_sort"
-  end
+  # def self.image_path
+  #   "app/assets/images/to_sort"
+  # end
 
-  def self.thumbnail_path
-    "app/assets/images/to_sort/thumbnails/300"
-  end
+  # def self.thumbnail_path
+  #   "app/assets/images/to_sort/thumbnails/300"
+  # end
 
-  def image_save_path
-    "#{Image.image_path}/#{self[:key]}"
-  end
+  # def image_save_path
+  #   "#{Image.image_path}/#{self[:key]}"
+  # end
 
-  def generate_thumb
-    image = MiniMagick::Image.open(image_save_path) 
-    image.resize "300x300"
-    image.write  "#{Image.thumbnail_path}/#{self[:key]}"
-  end
+  # def generate_thumb
+  #   image = MiniMagick::Image.open(image_save_path) 
+  #   image.resize "300x300"
+  #   image.write  "#{Image.thumbnail_path}/#{self[:key]}"
+  # end
 
-  def set_image_info
-    image_file = File.read(image_save_path)
-    self.image_hash = Digest::MD5.hexdigest(image_file)
-    self.width = FastImage.size(image_save_path)[0]
-    self.height = FastImage.size(image_save_path)[1]
-    self.file_size = image_file.size
+  # def set_image_info
+  #   image_file = File.read(image_save_path)
+  #   self.image_hash = Digest::MD5.hexdigest(image_file)
+  #   self.width = FastImage.size(image_save_path)[0]
+  #   self.height = FastImage.size(image_save_path)[1]
+  #   self.file_size = image_file.size
 
-    if image_invalid? && !self.persisted?
-      destroy
-    else
-      save!
-    end
-  end
+  #   if image_invalid? && !self.persisted?
+  #     destroy
+  #   else
+  #     save!
+  #   end
+  # end
 
-  def image_invalid?
-    too_small = (self.width < 300 || self.height < 300)
-    Rails.logger.warn "Too small" if too_small
-    already_downloaded = Image.where(:image_hash => image_hash).count > 0
-    Rails.logger.warn "already_downloaded" if already_downloaded
-    (too_small || already_downloaded)
-  end
+  # def image_invalid?
+  #   too_small = (self.width < 300 || self.height < 300)
+  #   Rails.logger.warn "Too small" if too_small
+  #   already_downloaded = Image.where(:image_hash => image_hash).count > 0
+  #   Rails.logger.warn "already_downloaded" if already_downloaded
+  #   (too_small || already_downloaded)
+  # end
 
-  def download(page_image=nil)
-    begin
-      if page_image
-        page_image.fetch.save image_save_path #To protect from hotlinking we reuse the same session
-      else
-        open(image_save_path, 'wb') do |file|
-          file << open(source_url, :allow_redirections => :all).read
-        end
-      end
+  # def download(page_image=nil)
+  #   begin
+  #     if page_image
+  #       page_image.fetch.save image_save_path #To protect from hotlinking we reuse the same session
+  #     else
+  #       open(image_save_path, 'wb') do |file|
+  #         file << open(source_url, :allow_redirections => :all).read
+  #       end
+  #     end
 
-      generate_thumb
-      set_image_info
-      Facades::Ftp.new.upload_file(self)
-    rescue Timeout::Error, Errno::ENOENT => e
-      Rails.logger.error e.to_s
-    rescue OpenURI::HTTPError => e
-      Rails.logger.error "40x error at url : #{source_url}, deleting image"+e.to_s
-      destroy
-    end
-  end
+  #     generate_thumb
+  #     set_image_info
+  #     Facades::Ftp.new.upload_file(self)
+  #   rescue Timeout::Error, Errno::ENOENT => e
+  #     Rails.logger.error e.to_s
+  #   rescue OpenURI::HTTPError => e
+  #     Rails.logger.error "40x error at url : #{source_url}, deleting image"+e.to_s
+  #     destroy
+  #   end
+  # end
 
 end

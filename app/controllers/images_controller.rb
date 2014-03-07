@@ -4,6 +4,8 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:update, :destroy, :redownload]
   respond_to :json
 
+  rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
+
   def index
     @to_sort_count = @website.images.where(:status => Image::TO_SORT_STATUS).count
     @to_keep_count = @website.images.where(:status => Image::TO_KEEP_STATUS).count
@@ -24,6 +26,8 @@ class ImagesController < ApplicationController
   end
 
   def create
+    return render_404 if @post.nil?
+
     image = @post.images.create(post_params.merge(:website => @website))
     respond_with image do |format|
       format.json { render json: image }
