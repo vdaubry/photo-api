@@ -6,7 +6,6 @@ gem 'figaro',                   '~> 0.7.0'
 gem 'active_model_serializers', '~> 0.8.1'
 gem 'kaminari',                 '~> 0.15.1'
 gem 'newrelic_rpm',             '~> 3.7.2.195'
-gem 'open_uri_redirections',    '~> 0.1.4'
 gem 'unicorn',                  '~> 4.8.2'
 
 group :test do
