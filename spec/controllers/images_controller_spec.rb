@@ -208,26 +208,5 @@ describe ImagesController do
       end
     end 
 
-  #   context "Post already exists for same website" do
-  #     let(:website) { FactoryGirl.create(:website) }
-
-  #     it "doesn't create post" do
-  #       FactoryGirl.create(:post, :website => website, :name => "toto_11/22")
-  #       expect {
-  #         post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
-  #         }.to change{Post.count}.by(0)
-  #     end
-  #   end
-
-  #   context "Post already exists for another website" do
-  #     let(:website) { FactoryGirl.create(:website) }
-
-  #     it "creates post" do
-  #       FactoryGirl.create(:post, :name => "toto_11/22")
-  #       expect {
-  #         post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
-  #         }.to change{Post.count}.by(1)
-  #     end
-  #   end
   end
 end
