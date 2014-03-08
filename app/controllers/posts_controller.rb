@@ -37,8 +37,4 @@ class PostsController < ApplicationController
 	def post_params
 	  params.require(:post).permit(:id, :name)
 	end
-
-  def render_404
-    render :status => 404, :text => 'not found'
-  end
 end
