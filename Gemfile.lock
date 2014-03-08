@@ -88,7 +88,7 @@ GEM
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.8.0)
-    newrelic_rpm (3.7.2.195)
+    newrelic_rpm (3.7.3.199)
     optionable (0.2.0)
     origin (2.1.0)
     polyglot (0.3.4)
@@ -167,7 +167,7 @@ DEPENDENCIES
   mocha (~> 1.0.0)
   mongoid!
   net-sftp (~> 2.1.2)
-  newrelic_rpm (~> 3.7.2.195)
+  newrelic_rpm (~> 3.7.3.199)
   rails (= 4.0.3)
   rspec-rails (~> 2.14.1)
   unicorn (~> 4.8.2)

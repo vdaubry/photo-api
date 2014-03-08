@@ -27,18 +27,4 @@ class Facades::Ftp
       end
     end
   end
-
-  def upload_file(image)
-    unless Rails.env.test?
-      img_path = "#{Image.image_path}/#{image.key}"
-      thumb_path = "#{Image.thumbnail_path}/#{image.key}"
-      Net::SFTP.start(FTP_ADRESS, ENV['FTP_LOGIN'], :password => ENV['FTP_PASSWORD']) do |sftp|
-        sftp.upload!(img_path, "#{SAVE_PATH}/#{image.key}")
-        sftp.upload!(thumb_path, "#{THUMBNAILS_PATH}/#{image.key}")
-      end
-
-      File.delete(img_path)
-      File.delete(thumb_path)
-    end
-  end
 end
