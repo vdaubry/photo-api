@@ -7,6 +7,7 @@ gem 'active_model_serializers', '~> 0.8.1'
 gem 'kaminari',                 '~> 0.15.1'
 gem 'newrelic_rpm',             '~> 3.7.2.195'
 gem 'unicorn',                  '~> 4.8.2'
+gem 'net-sftp',                 '~> 2.1.2'
 
 group :test do
   gem 'coveralls',              '~> 0.7.0', require: false
