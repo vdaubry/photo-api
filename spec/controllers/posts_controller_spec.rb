@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe PostsController do
+  let(:website) { FactoryGirl.create(:website) }
 
-  describe "DELETE destroy" do
-    let(:website) { FactoryGirl.create(:website) }
+  describe "DELETE destroy" do  
     let(:post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
 
     context "has next post" do
@@ -45,8 +45,6 @@ describe PostsController do
 
   describe "POST create" do
     context "valid params" do
-      let(:website) { FactoryGirl.create(:website) }
-
       it "creates a post" do
         expect {
           post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
@@ -75,8 +73,6 @@ describe PostsController do
     end 
 
     context "invalid post" do
-      let(:website) { FactoryGirl.create(:website) }
-
       it "doesn't create post" do
         expect {
           post 'create', :format => :json, :website_id => website.id, :name => "toto_11/22"
@@ -85,8 +81,6 @@ describe PostsController do
     end 
 
     context "Post already exists for same website" do
-      let(:website) { FactoryGirl.create(:website) }
-
       it "doesn't create post" do
         FactoryGirl.create(:post, :website => website, :name => "toto_11/22")
         expect {
@@ -96,14 +90,43 @@ describe PostsController do
     end
 
     context "Post already exists for another website" do
-      let(:website) { FactoryGirl.create(:website) }
-
       it "creates post" do
         FactoryGirl.create(:post, :name => "toto_11/22")
         expect {
           post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
           }.to change{Post.count}.by(1)
       end
+    end
+  end
+
+  describe "GET search" do
+    it "returns posts" do
+      FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
+
+      get 'search', :format => :json, :website_id => website.id, :page_url => "www.foo.bar"
+
+      posts = JSON.parse(response.body)["posts"]
+      posts.count.should == 1
+      posts[0]["name"].should == "toto_11/22"
+    end
+  end
+
+  describe "PUT update" do
+    it "adds page_url to post" do
+      post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
+
+      put 'update', :format => :json, :website_id => website.id, :id => post.id, :post => {:page_url => "www.foo.bar"}
+
+      post.reload.pages_url.should =~ ["www.foo.bar","www.foo.bar1","www.foo.bar2"]
+    end
+
+    it "returns post" do
+      post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
+
+      put 'update', :format => :json, :website_id => website.id, :id => post.id, :post => {:page_url => "www.foo.bar"}
+
+      post = JSON.parse(response.body)["post"]
+      post["name"].should == "toto_11/22"
     end
   end
 end

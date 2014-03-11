@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_website, only: [:destroy, :create]
-  before_action :set_post, only: [:destroy]
+  before_action :set_website, only: [:destroy, :create, :search, :update]
+  before_action :set_post, only: [:destroy, :update]
   respond_to :json
 
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
@@ -20,6 +20,19 @@ class PostsController < ApplicationController
     post = @website.posts.find_or_create_by(:name => params[:post][:name]) rescue nil
     respond_with post do |format|
       format.json { render json: post }
+    end
+  end
+
+  def search
+    posts = @website.posts.with_page_url(params[:page_url])
+    respond_with posts
+  end
+
+  def update
+    @post.add_to_set(pages_url: params[:post][:page_url])
+    @post.save
+    respond_with @post do |format|
+      format.json { render json: @post }
     end
   end
 

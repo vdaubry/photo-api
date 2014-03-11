@@ -71,8 +71,30 @@ describe ImagesController do
       images[0]["source_url"].should == "www.foo.bar"
     end
 
+    it "returns image by hosting_url" do
+      image = FactoryGirl.create(:image, :website => website, :hosting_url => "www.foo.bar")
+      
+      get 'search', :format => :json, :website_id => website.id, :hosting_url => "www.foo.bar"
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 1
+      images[0]["hosting_url"].should == "www.foo.bar"
+    end
+
+    it "returns images by array of hosting_url" do
+      image = FactoryGirl.create(:image, :website => website, :hosting_url => "www.foo.bar")
+      image = FactoryGirl.create(:image, :website => website, :hosting_url => "www.foo.bar1")
+      
+      get 'search', :format => :json, :website_id => website.id, :hosting_urls => ["www.foo.bar","www.foo.bar1"]
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 2
+      images[0]["hosting_url"].should == "www.foo.bar"
+      images[1]["hosting_url"].should == "www.foo.bar1"
+    end
+
     it "returns nil if no image with source_url is found" do
-      get 'search', :format => :json, :website_id => website.id, :source_url => "www.foo.bar"
+      get 'search', :format => :json, :website_id => website.id, :source_url => "www.foo.bar", :hosting_url => "www.foo.bar"
 
       images = JSON.parse(response.body)["images"]
       images.count.should == 0

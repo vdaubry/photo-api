@@ -35,7 +35,14 @@ class ImagesController < ApplicationController
   end
 
   def search
-    images = @website.images.where(:source_url => params[:source_url]).page(params[:page])
+    images = if params[:source_url].present?
+                @website.images.where(:source_url => params[:source_url])
+              elsif params[:hosting_url].present?
+                @website.images.where(:hosting_url => params[:hosting_url])
+              elsif params[:hosting_urls].present?
+                @website.images.where(:hosting_url.in => params[:hosting_urls])
+              end
+
     respond_with images
   end
 

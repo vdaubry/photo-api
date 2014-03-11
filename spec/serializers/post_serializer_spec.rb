@@ -6,7 +6,7 @@ describe PostSerializer do
     post = FactoryGirl.create(:post, :id => "5314e4264d6163063f020000", :name => "some_name", :status => "SORTED_STATUS", :pages_url => ["www.foo.bar", "www.foo.bar1"])
     serializer = PostSerializer.new post
 
-    expect(serializer.to_json).to eql('{"post":{"id":"5314e4264d6163063f020000","name":"some_name","status":"SORTED_STATUS","pages_url":["www.foo.bar","www.foo.bar1"]}}')
+    expect(serializer.to_json).to eql('{"post":{"id":"5314e4264d6163063f020000","name":"some_name","status":"SORTED_STATUS"}}')
   end
 
 end

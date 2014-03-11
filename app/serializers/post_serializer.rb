@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :name, :status, :pages_url
+  attributes :id, :name, :status
 
   def id
     object.id.to_s
