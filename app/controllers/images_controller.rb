@@ -41,8 +41,9 @@ class ImagesController < ApplicationController
                 @website.images.where(:hosting_url => params[:hosting_url])
               elsif params[:hosting_urls].present?
                 @website.images.where(:hosting_url.in => params[:hosting_urls])
+              else
+                []
               end
-
     respond_with images
   end
 

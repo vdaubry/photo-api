@@ -93,8 +93,15 @@ describe ImagesController do
       images[1]["hosting_url"].should == "www.foo.bar1"
     end
 
-    it "returns nil if no image with source_url is found" do
+    it "returns empty images if no image with source_url is found" do
       get 'search', :format => :json, :website_id => website.id, :source_url => "www.foo.bar", :hosting_url => "www.foo.bar"
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 0
+    end
+
+    it "returns empty images if no params is found" do
+      get 'search', :format => :json, :website_id => website.id, :source_url => ""
 
       images = JSON.parse(response.body)["images"]
       images.count.should == 0
