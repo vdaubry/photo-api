@@ -228,13 +228,11 @@ describe ImagesController do
     end 
 
     context "invalid image" do
-      let(:invalid_params) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+      let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+      let(:image_too_small) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 200, :height => 400, :file_size => 123678} }
 
-      it "doesn't create post" do
-        expect {
-          post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => invalid_params
-          }.to change{Image.count}.by(0)
-      end
+      it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => missing_key }.to change{Image.count}.by(0) }
+      it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small }.to change{Image.count}.by(0) }
     end 
 
   end

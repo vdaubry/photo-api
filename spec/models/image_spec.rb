@@ -22,6 +22,12 @@ describe Image do
 		context "invalid status" do
 			it { FactoryGirl.build(:image, :status => "foo").save.should == false }
 		end
+
+		context "too small" do
+			it { FactoryGirl.build(:image, :width => 300, :height => 300).save.should == true }
+			it { FactoryGirl.build(:image, :width => 299).save.should == false }
+			it { FactoryGirl.build(:image, :height => 299).save.should == false }
+		end
 	end
 
 	describe "scopes" do
