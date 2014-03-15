@@ -19,7 +19,7 @@ PhotoDownloader::Application.routes.draw do
       end
     end
 
-    resources :scrappings, :only => [:create]
+    resources :scrappings, :only => [:create, :update]
 
     resources :images, :only => :index do
       collection do  

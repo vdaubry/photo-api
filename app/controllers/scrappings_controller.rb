@@ -1,5 +1,6 @@
 class ScrappingsController < ApplicationController
-  before_action :set_website, only: [:create]
+  before_action :set_website, only: [:create, :update]
+  before_action :set_scrapping, only: [:update]
 
   respond_to :json
 
@@ -8,7 +9,13 @@ class ScrappingsController < ApplicationController
     respond_with scrapping do |format|
       format.json { render json: scrapping }
     end
-    
+  end
+
+  def update
+    @scrapping.update_attributes(post_params)
+    respond_with @scrapping do |format|
+      format.json { render json: @scrapping }
+    end
   end
 
   private
@@ -16,6 +23,10 @@ class ScrappingsController < ApplicationController
   def set_website
     @website = Website.find(params[:website_id])
   end
+
+  def set_scrapping
+    @scrapping = @website.scrappings.find(params[:id])
+  end  
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
