@@ -1,10 +1,4 @@
 class Facades::Ftp
-  FTP_ADRESS = '84.103.194.37'
-
-  IMAGES_PATH="/mnt/HDD/ftp/images/to_sort"
-  THUMBNAILS_PATH="/mnt/HDD/ftp/images/to_sort/thumbnails/300"  
-  SAVE_PATH="/mnt/HDD/ftp/backup/Pic/New"
-  
   def move_files_to_keep(keys)
     Net::SFTP.start(FTP_ADRESS, ENV['FTP_LOGIN'], :password => ENV['FTP_PASSWORD']) do |sftp|
       keys.each do |key|

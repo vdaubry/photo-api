@@ -33,4 +33,9 @@ PhotoDownloader::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  FTP_ADRESS = 'fake.no-ip.biz'
+  IMAGES_PATH="/mnt/HDD/ftp/images/production/to_sort/fake"
+  THUMBNAILS_PATH="/mnt/HDD/ftp/images/production/to_sort/thumbnails/300/fake"  
+  SAVE_PATH="/mnt/HDD/ftp/backup/Pic/New/fake"
 end

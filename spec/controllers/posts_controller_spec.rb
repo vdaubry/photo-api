@@ -51,6 +51,13 @@ describe PostsController do
         }.to change{Post.count}.by(1)
       end
 
+      it "sets existing posts to unsorted status" do
+        post = FactoryGirl.create(:post, :status =>  Post::SORTED_STATUS, :website => website, :name => "toto_11/22")
+        post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
+
+        post.reload.status.should == Post::TO_SORT_STATUS
+      end
+
       it "sets post attributes" do
         post 'create', :format => :json, :website_id => website.id, :post => {:name => "toto_11/22"}
 

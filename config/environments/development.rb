@@ -24,4 +24,9 @@ PhotoDownloader::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  FTP_ADRESS = 'photo-visualizer.no-ip.biz'
+  IMAGES_PATH="/mnt/HDD/ftp/images/development/to_sort"
+  THUMBNAILS_PATH="/mnt/HDD/ftp/images/developmen/to_sort/thumbnails/300"  
+  SAVE_PATH="/mnt/HDD/ftp/backup/Pic/New"
 end

@@ -50,6 +50,10 @@ PhotoDownloader::Application.configure do
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get(
+    ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG'
+  )
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -77,4 +81,9 @@ PhotoDownloader::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  FTP_ADRESS = 'photo-visualizer.no-ip.biz'
+  IMAGES_PATH="/mnt/HDD/ftp/images/production/to_sort"
+  THUMBNAILS_PATH="/mnt/HDD/ftp/images/production/to_sort/thumbnails/300"  
+  SAVE_PATH="/mnt/HDD/ftp/backup/Pic/New"
 end

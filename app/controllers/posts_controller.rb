@@ -17,7 +17,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = @website.posts.find_or_create_by(:name => params[:post][:name]) rescue nil
+    post = @website.posts.find_or_initialize_by(:name => params[:post][:name]) rescue nil
+    if post
+      post.status = Post::TO_SORT_STATUS
+      post.save
+    end
     respond_with post do |format|
       format.json { render json: post }
     end
