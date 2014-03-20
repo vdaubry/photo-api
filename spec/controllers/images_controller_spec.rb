@@ -233,6 +233,12 @@ describe ImagesController do
 
       it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => missing_key }.to change{Image.count}.by(0) }
       it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small }.to change{Image.count}.by(0) }
+
+      it "returns image error" do
+        post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small
+
+        JSON.parse(response.body).should == ""
+      end
     end 
 
   end

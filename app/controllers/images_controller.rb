@@ -28,6 +28,7 @@ class ImagesController < ApplicationController
   def create
     return render_404 if @post.nil?
 
+    #TODO rendre les erreurs => https://github.com/json-api/json-api/issues/7
     image = @post.images.create(post_params.merge(:website => @website))
     respond_with image do |format|
       format.json { render json: image }
@@ -72,8 +73,8 @@ class ImagesController < ApplicationController
       ) 
     end
     @post.check_status!
-    next_post_id = @website.latest_post.id.to_s rescue nil
 
+    next_post_id = @website.latest_post.id.to_s rescue nil
     render :json => {:next_post_id => next_post_id}
   end 
 
