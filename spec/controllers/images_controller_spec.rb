@@ -120,6 +120,13 @@ describe ImagesController do
 
       put 'update', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => to_sort_image.id, :format => :js
     end
+
+    it "updates updated_at field" do
+      image = FactoryGirl.create(:image, :updated_at => DateTime.parse("01/02/2010"), :website => website, :post => to_sort_post)
+      put 'update', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => image.id, :format => :js
+
+      image.reload.updated_at.should_not == DateTime.parse("01/02/2010")
+    end
   end
 
   describe "DELETE destroy" do
@@ -133,6 +140,13 @@ describe ImagesController do
       Post.any_instance.expects(:check_status!).once
 
       delete 'destroy', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => to_sort_image.id, :format => :js
+    end
+
+    it "updates updated_at field" do
+      image = FactoryGirl.create(:image, :updated_at => DateTime.parse("01/02/2010"), :website => website, :post => to_sort_post)
+      delete 'destroy', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => image.id, :format => :js
+
+      image.reload.updated_at.should_not == DateTime.parse("01/02/2010")
     end
   end 
 
@@ -150,6 +164,16 @@ describe ImagesController do
       Post.any_instance.expects(:check_status!).once
 
       delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
+    end
+
+    it "updates updated_at" do
+      image1 = FactoryGirl.create(:image, :updated_at => DateTime.parse("01/02/2010"), :post => to_sort_post, :website => website)
+      image2 = FactoryGirl.create(:image, :updated_at => DateTime.parse("01/02/2010"), :post => to_sort_post, :website => website)
+
+      delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [image1.id, image2.id]
+
+      image1.reload.updated_at.should_not == DateTime.parse("01/02/2010")
+      image2.reload.updated_at.should_not == DateTime.parse("01/02/2010")
     end
 
     context "has next post" do
@@ -237,7 +261,8 @@ describe ImagesController do
       it "returns image error" do
         post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small
 
-        JSON.parse(response.body).should == ""
+        JSON.parse(response.body).should == {"errors"=>["Width too small"]}
+        response.status.should == 422
       end
     end 
 
