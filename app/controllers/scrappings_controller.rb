@@ -13,6 +13,12 @@ class ScrappingsController < ApplicationController
 
   def update
     @scrapping.update_attributes(post_params)
+
+    if @scrapping.success
+      @scrapping.image_count = @scrapping.posts.inject(0) {|val,post| val += post.images.to_sort.count }
+      @scrapping.save
+    end
+
     respond_with @scrapping do |format|
       format.json { render json: @scrapping }
     end

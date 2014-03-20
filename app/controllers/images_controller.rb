@@ -28,9 +28,14 @@ class ImagesController < ApplicationController
   def create
     return render_404 if @post.nil?
 
-    image = @post.images.create(post_params.merge(:website => @website))
-    respond_with image do |format|
-      format.json { render json: image }
+    #TODO rendre les erreurs => https://github.com/json-api/json-api/issues/7
+    image = @post.images.new(post_params.merge(:website => @website))
+    if image.save
+      respond_with image do |format|
+        format.json { render json: image }
+      end
+    else
+      render :json => { :errors => image.errors.full_messages }, :status => 422
     end
   end
 
@@ -49,7 +54,8 @@ class ImagesController < ApplicationController
 
   def update
     @image.update_attributes(
-      status: Image::TO_KEEP_STATUS
+      status: Image::TO_KEEP_STATUS,
+      updated_at: DateTime.now
     )
     @post.check_status!
 
@@ -58,7 +64,8 @@ class ImagesController < ApplicationController
 
   def destroy
     @image.update_attributes(
-      status: Image::TO_DELETE_STATUS
+      status: Image::TO_DELETE_STATUS,
+      updated_at: DateTime.now
     )
     @post.check_status!
     
@@ -68,12 +75,13 @@ class ImagesController < ApplicationController
   def destroy_all
     if params["ids"]
       @website.images.where(:_id.in => params["ids"]).update_all(
-          status: Image::TO_DELETE_STATUS
+          status: Image::TO_DELETE_STATUS,
+          updated_at: DateTime.now
       ) 
     end
     @post.check_status!
-    next_post_id = @website.latest_post.id.to_s rescue nil
 
+    next_post_id = @website.latest_post.id.to_s rescue nil
     render :json => {:next_post_id => next_post_id}
   end 
 
