@@ -16,6 +16,10 @@ group :test do
   gem 'factory_girl_rails',     '~> 4.4.1'
 end
 
+group :development do
+    gem 'capistrano',           '~> 3.1.0'
+end
+
 group :development, :test do
   gem 'debugger'
 end
