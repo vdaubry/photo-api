@@ -34,6 +34,8 @@ set :deploy_to, '/srv/www/photo-visualizer'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+set :rvm_ruby_string, :local
+
 namespace :deploy do
 
   desc 'Restart application'
