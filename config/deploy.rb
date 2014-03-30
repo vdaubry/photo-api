@@ -62,7 +62,8 @@ namespace :deploy do
   task :copy_production do
     on roles :all do
       execute :mkdir, '-p', "#{shared_path}/config"
-      upload! 'config/initializers/secret_token.rb', "#{current_path}/config/initializers/secret_token.rb"
+      upload! 'config/initializers/secret_token.rb', "#{release_path}/config/initializers/secret_token.rb"
+      upload! 'config/application.yml', "#{release_path}/config/application.yml"
     end
   end
 
@@ -76,7 +77,7 @@ namespace :deploy do
     end
   end
 
-  after :publishing, :copy_production
+  before :compile_assets, :copy_production
   after :publishing, :restart
 
   after :restart, :clear_cache do
