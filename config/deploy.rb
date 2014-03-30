@@ -1,8 +1,17 @@
+# Ensure that bundle is used for rake tasks
+SSHKit.config.command_map[:rake] = "bundle exec rake"
+
 # config valid only for Capistrano 3.1
 lock '3.1.0'
 
 set :application, 'photo-visualizer'
 set :repo_url, 'git@github.com:vdaubry/photo-downloader.git'
+set :branch, "master"
+set :deploy_via, :remote_cache
+set :ssh_options, { :forward_agent => true }
+
+# We are only going to use a single stage: production
+set :stages, ["production"]
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
@@ -32,20 +41,42 @@ set :deploy_to, '/srv/www/photo-visualizer'
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
-# set :keep_releases, 5
+set :keep_releases, 1
 
-set :rvm_ruby_string, :local
+set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
 
 namespace :deploy do
+
+  desc "Check that we can access everything"
+  task :check_write_permissions do
+    on roles(:all) do |host|
+      if test("[ -w #{fetch(:deploy_to)} ]")
+        info "#{fetch(:deploy_to)} is writable on #{host}"
+      else
+        error "#{fetch(:deploy_to)} is not writable on #{host}"
+      end
+    end
+  end
+
+  desc 'Copy config from local workstation'
+  task :copy_production do
+    on roles :all do
+      execute :mkdir, '-p', "#{shared_path}/config"
+      upload! 'config/initializers/secret_token.rb', "#{current_path}/config/initializers/secret_token.rb"
+    end
+  end
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       execute "mkdir -p #{release_path.join('tmp')}"
       execute :touch, release_path.join('tmp/restart.txt')
+
+      # execute "rails s"
     end
   end
 
+  after :publishing, :copy_production
   after :publishing, :restart
 
   after :restart, :clear_cache do
