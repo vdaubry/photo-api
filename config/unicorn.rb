@@ -5,7 +5,7 @@ preload_app true
 
 # Production specific settings 
 
-if env == "production"
+#if env == "production"
   # listen on both a Unix domain socket and a TCP port,
   # we use a shorter backlog for quicker failover when busy
 
@@ -20,7 +20,7 @@ if env == "production"
   current_path = "/srv/www/photo-visualizer/current"
   stderr_path "#{current_path}/log/unicorn.log"
   stdout_path "#{current_path}/log/unicorn.log"
-end
+#end
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do

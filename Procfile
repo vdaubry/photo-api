@@ -1,2 +1,2 @@
-web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
+web: bundle exec rails s -p $PORT
 log: tail -f log/development.log
