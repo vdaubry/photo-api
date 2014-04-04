@@ -67,18 +67,24 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart application'
-  task :restart do
+  desc 'Start unicorn'
+  task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      #execute "mkdir -p #{release_path.join('tmp')}"
-      #execute :touch, release_path.join('tmp/restart.txt')
+      execute "cd #{current_path} && bundle exec unicorn -p 3002 -c ./config/unicorn.rb -E production"
+    end
+  end
 
-      execute "cd #{current_path} && bundle exec unicorn -p 3002 -c ./config/unicorn.rb"
+  desc 'Stop unicorn'
+  task :stop do
+    on roles(:app) do
+      #execute "kill -s QUIT `cat #{shared_path}/pids/unicorn.pid`"
+      execute "ps aux | grep unicorn | awk '{print $2}' | xargs kill -9"
     end
   end
 
   before :compile_assets, :copy_production
-  after :publishing, :restart
+  after :publishing, :stop
+  after :publishing, :start
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do

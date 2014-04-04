@@ -54,6 +54,8 @@ GEM
     capistrano-rvm (0.1.1)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-unicorn (0.1.10)
+      capistrano
     columnize (0.3.6)
     connection_pool (1.2.0)
     coveralls (0.7.0)
@@ -181,6 +183,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails (~> 1.1.1)
   capistrano-rvm (~> 0.1.1)
+  capistrano-unicorn
   coveralls (~> 0.7.0)
   debugger
   factory_girl_rails (~> 4.4.1)

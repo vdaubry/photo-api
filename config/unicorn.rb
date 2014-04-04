@@ -1,3 +1,6 @@
+# Ensure that we're running in the production environment
+env = ENV['RACK_ENV'] || 'production'
+
 # config/unicorn.rb
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 30
@@ -5,11 +8,13 @@ preload_app true
 
 # Production specific settings 
 
-#if env == "production"
+if env == "production"
   # listen on both a Unix domain socket and a TCP port,
   # we use a shorter backlog for quicker failover when busy
 
   listen "/tmp/unicorn.photo-visualizer.sock", backlog: 64
+
+  pid "/srv/www/photo-visualizer/shared/pids/unicorn.pid"
 
   # feel free to point this anywhere accessible on the filesystem
   #user 'deploy'
@@ -21,7 +26,7 @@ preload_app true
   # "current" directory that Capistrano sets up. 
   working_directory "#{current_path}"
 
-#end
+end
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
