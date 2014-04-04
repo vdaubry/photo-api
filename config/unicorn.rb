@@ -11,15 +11,16 @@ preload_app true
 
   listen "/tmp/unicorn.photo-visualizer.sock", backlog: 64
 
-  # Help ensure your application will always spawn in the symlinked
-  # "current" directory that Capistrano sets up. 
-  working_directory "/home/deployer/apps/my_site/current"
-
   # feel free to point this anywhere accessible on the filesystem
   #user 'deploy'
   current_path = "/srv/www/photo-visualizer/current"
   stderr_path "#{current_path}/log/unicorn.log"
   stdout_path "#{current_path}/log/unicorn.log"
+
+  # Help ensure your application will always spawn in the symlinked
+  # "current" directory that Capistrano sets up. 
+  working_directory "#{current_path}"
+
 #end
 
 before_fork do |server, worker|

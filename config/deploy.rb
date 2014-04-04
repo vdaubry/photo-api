@@ -70,10 +70,10 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "mkdir -p #{release_path.join('tmp')}"
-      execute :touch, release_path.join('tmp/restart.txt')
+      #execute "mkdir -p #{release_path.join('tmp')}"
+      #execute :touch, release_path.join('tmp/restart.txt')
 
-      # execute "rails s"
+      execute "bundle exec unicorn -p 3002 -c ./config/unicorn.rb"
     end
   end
 
