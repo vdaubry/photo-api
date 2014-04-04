@@ -73,7 +73,7 @@ namespace :deploy do
       #execute "mkdir -p #{release_path.join('tmp')}"
       #execute :touch, release_path.join('tmp/restart.txt')
 
-      execute "bundle exec unicorn -p 3002 -c ./config/unicorn.rb"
+      execute "cd #{current_path} && bundle exec unicorn -p 3002 -c ./config/unicorn.rb"
     end
   end
 
