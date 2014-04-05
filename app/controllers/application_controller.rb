@@ -4,7 +4,13 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token
 
   def ping
-    render :status => 404, :text => 'ok'
+    website = Website.first
+
+    if website
+      render :status => 200, :text => 'ok'
+    else
+      render :status => 404, :text => 'not found'
+    end
   end
 
   def render_404
