@@ -6,12 +6,12 @@ namespace :image do
 
     ftp = Facades::Ftp.new
 
-    pp "Deleting #{Image.where(:status => Image::TO_DELETE_STATUS).count} images"
+    puts "Deleting #{Image.where(:status => Image::TO_DELETE_STATUS).count} images"
     keys = Image.where(:status => Image::TO_DELETE_STATUS).map(&:key)
     ftp.delete_files(keys)
     
 
-    pp "Saving #{Image.where(:status => Image::TO_KEEP_STATUS).count} images"
+    puts "Saving #{Image.where(:status => Image::TO_KEEP_STATUS).count} images"
     keys = Image.where(:status => Image::TO_KEEP_STATUS).map(&:key)
     ftp.move_files_to_keep(keys)
 

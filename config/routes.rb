@@ -1,4 +1,6 @@
 PhotoDownloader::Application.routes.draw do
+  get 'ping', to: 'application#ping'
+
   resources :websites do
     collection do
       get 'search'

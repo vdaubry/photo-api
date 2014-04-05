@@ -29,6 +29,8 @@ class Image
   scope :to_keep, -> {where(:status => TO_KEEP_STATUS)}
   scope :to_delete, -> {where(:status => TO_DELETE_STATUS)}
 
+  paginates_per 50
+
   private
 
   def image_size
