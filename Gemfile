@@ -8,6 +8,7 @@ gem 'kaminari',                 '~> 0.15.1'
 gem 'newrelic_rpm',             '~> 3.7.3.204'
 gem 'unicorn',                  '~> 4.8.2'
 gem 'net-sftp',                 '~> 2.1.2'
+gem 'sentry-raven',             '~> 0.7.1'
 
 group :test do
   gem 'coveralls',              '~> 0.7.0', require: false
