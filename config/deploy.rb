@@ -71,7 +71,7 @@ namespace :deploy do
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
       execute :mkdir, '-p', "#{shared_path}/pids"
-      execute "cd #{current_path} && bundle exec unicorn -p 3002 -c ./config/unicorn.rb -E production &"
+      execute "cd #{current_path} && bundle exec unicorn -p 3002 -c ./config/unicorn.rb -E production -D"
     end
   end
 
