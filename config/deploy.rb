@@ -64,6 +64,7 @@ namespace :deploy do
       execute :mkdir, '-p', "#{shared_path}/config"
       upload! 'config/initializers/secret_token.rb', "#{release_path}/config/initializers/secret_token.rb"
       upload! 'config/application.yml', "#{release_path}/config/application.yml"
+      upload! 'config/librato.yml', "#{release_path}/config/librato.yml"
     end
   end
 
@@ -78,8 +79,8 @@ namespace :deploy do
   desc 'Stop unicorn'
   task :stop do
     on roles(:app) do
-      execute "kill -s QUIT `cat #{shared_path}/pids/unicorn.pid`"
-      #execute "ps aux | grep unicorn | awk '{print $2}' | xargs kill -9"
+      #kill process saved in unicorn.pid and ignore errors
+      execute "kill -s QUIT `cat #{shared_path}/pids/unicorn.pid` || true"
     end
   end
 

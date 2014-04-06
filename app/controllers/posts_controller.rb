@@ -19,6 +19,8 @@ class PostsController < ApplicationController
   def create
     post = @website.posts.find_or_initialize_by(:name => params[:post][:name]) rescue nil
     if post
+      Librato.increment 'post.create'
+      Librato.increment "#{@website.name}.post.create"
       post.status = Post::TO_SORT_STATUS
       post.save
     end

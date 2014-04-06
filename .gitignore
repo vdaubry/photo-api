@@ -1,5 +1,6 @@
 ressources/*
 coverage
+librato.yml
 
 *.rbc
 *.sassc

@@ -31,6 +31,8 @@ class ImagesController < ApplicationController
     #TODO rendre les erreurs => https://github.com/json-api/json-api/issues/7
     image = @post.images.new(post_params.merge(:website => @website))
     if image.save
+      Librato.increment 'image.create'
+      Librato.increment "#{@website.name}.image.create"
       respond_with image do |format|
         format.json { render json: image }
       end
