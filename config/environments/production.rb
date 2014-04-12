@@ -82,8 +82,8 @@ PhotoDownloader::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  FTP_ADRESS = 'photo-visualizer.no-ip.biz'
-  IMAGES_PATH="/mnt/HDD/ftp/images/production/to_sort"
-  THUMBNAILS_PATH="/mnt/HDD/ftp/images/production/to_sort/thumbnails/300"  
-  SAVE_PATH="/mnt/HDD/ftp/backup/Pic/New"
+  FTP_ADRESS = '92.222.1.55'
+  IMAGES_PATH="/home/ubuntu/ftp/images/production/to_sort"
+  THUMBNAILS_PATH="/home/ubuntu/ftp/images/production/to_sort/thumbnails/300"  
+  SAVE_PATH="/home/ubuntu/ftp/backup/Pic/New"
 end

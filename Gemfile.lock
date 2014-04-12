@@ -53,9 +53,6 @@ GEM
     capistrano-rails (1.1.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.1)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
     columnize (0.3.6)
     connection_pool (2.0.0)
     coveralls (0.7.0)
@@ -203,7 +200,6 @@ DEPENDENCIES
   active_model_serializers (~> 0.8.1)
   capistrano-bundler
   capistrano-rails (~> 1.1.1)
-  capistrano-rvm (~> 0.1.1)
   coveralls (~> 0.7.0)
   debugger
   factory_girl_rails (~> 4.4.1)

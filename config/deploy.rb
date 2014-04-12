@@ -43,7 +43,7 @@ set :deploy_to, '/srv/www/photo-visualizer'
 # Default value for keep_releases is 5
 set :keep_releases, 1
 
-set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
+#set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
 
 namespace :deploy do
 

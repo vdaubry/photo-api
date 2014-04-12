@@ -21,7 +21,7 @@ end
 
 group :development do
     gem 'capistrano-rails',     '~> 1.1.1'
-    gem 'capistrano-rvm',       '~> 0.1.1'
+    #gem 'capistrano-rvm',       '~> 0.1.1'
     gem 'capistrano-bundler'
     #gem 'capistrano-unicorn',   '~> 0.2.0', :require => false
 end
