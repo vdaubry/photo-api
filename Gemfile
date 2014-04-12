@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                    '4.0.4'
+gem 'rails',                    '4.1.0'
 gem 'mongoid',                  git: 'git://github.com/mongoid/mongoid.git'
 gem 'figaro',                   '~> 0.7.0'
 gem 'active_model_serializers', '~> 0.8.1'
@@ -23,7 +23,7 @@ group :development do
     gem 'capistrano-rails',     '~> 1.1.1'
     gem 'capistrano-rvm',       '~> 0.1.1'
     gem 'capistrano-bundler'
-    gem 'capistrano-unicorn', :require => false
+    #gem 'capistrano-unicorn',   '~> 0.2.0', :require => false
 end
 
 group :development, :test do
