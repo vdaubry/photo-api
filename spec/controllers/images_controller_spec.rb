@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ImagesController do
   let(:website) { FactoryGirl.create(:website) }
   let(:to_sort_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
+  let(:sorted_post) { FactoryGirl.create(:post, :status => Post::SORTED_STATUS, :website => website) }
   let(:to_sort_image) { FactoryGirl.create(:image, :status => Image::TO_SORT_STATUS, :website => website, :post => to_sort_post) }
 
   describe "GET index" do
@@ -214,6 +215,7 @@ describe ImagesController do
 
   describe "POST create" do
     let(:valid_params) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+    
 
     context "valid params" do
       it "creates an image" do
@@ -255,6 +257,13 @@ describe ImagesController do
       it "renders 404" do
         post 'create', :format => :json, :website_id => website.id, :post_id => "1234", :image => valid_params
         response.status.should == 404
+      end
+    end 
+
+    context "post is already sorted" do
+      it "updates post status to to_sort" do
+        post 'create', :format => :json, :website_id => website.id, :post_id => sorted_post.id, :image => valid_params
+        sorted_post.reload.status.should == Post::TO_SORT_STATUS
       end
     end 
 

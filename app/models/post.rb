@@ -19,14 +19,17 @@ class Post
   scope :with_page_url, ->(url) {where(:pages_url.in => [url])}
 
   def check_status!
-    self.update_attributes(:status => Post::SORTED_STATUS) if self.images.where(:status => Image::TO_SORT_STATUS).count == 0
+    update_attributes(:status => Post::SORTED_STATUS) if images.where(:status => Image::TO_SORT_STATUS).count == 0
   end
 
+  def update_post_status
+    update_attribute(:status, Post::TO_SORT_STATUS) if status == Post::SORTED_STATUS
+  end
 
   private 
 
   def unique_name_per_scrapping
-    self.errors.add :name, 'must be unique' if self.scrapping.present? && Post.where(:scrapping => self.scrapping, :name => self.name).size > 0
+    errors.add :name, 'must be unique' if scrapping.present? && Post.where(:scrapping => scrapping, :name => name).size > 0
   end
 
 end

@@ -11,6 +11,7 @@ class Image
   include Mongoid::Timestamps
   belongs_to :website
   belongs_to :post
+  delegate :update_post_status, :to => :post
 
   field :key, type: String
   field :image_hash, type: String

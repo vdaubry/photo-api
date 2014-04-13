@@ -33,6 +33,7 @@ class ImagesController < ApplicationController
     if image.save
       Librato.increment 'image.create'
       Librato.increment "#{@website.name.gsub(' ', '-')}.image.create"
+      image.update_post_status
       respond_with image do |format|
         format.json { render json: image }
       end
