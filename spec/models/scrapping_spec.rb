@@ -38,6 +38,5 @@ describe Scrapping do
 				}
 			end
 		end
-
 	end
 end

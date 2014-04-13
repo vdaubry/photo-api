@@ -84,9 +84,16 @@ namespace :deploy do
     end
   end
 
+  desc 'Run migration'
+  task :invoke do  
+    run("cd #{current_path}; rake migration:run")  
+  end  
+  
+
   before :compile_assets, :copy_production
   after :publishing, :stop
   after :publishing, :start
+  after :published, :start
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
