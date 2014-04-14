@@ -15,7 +15,7 @@ namespace :image do
     keys = Image.where(:status => Image::TO_KEEP_STATUS).map(&:key)
     ftp.move_files_to_keep(keys)
 
-    Image.where(:status => Image::TO_KEEP_STATUS).update_all(:status => Image::KEPT_STATUS)
-    Image.where(:status => Image::TO_DELETE_STATUS).update_all(:status => Image::DELETED_STATUS)
+    #Image.where(:status => Image::TO_KEEP_STATUS).update_all(:status => Image::KEPT_STATUS)
+    #Image.where(:status => Image::TO_DELETE_STATUS).update_all(:status => Image::DELETED_STATUS)
   end
 end
