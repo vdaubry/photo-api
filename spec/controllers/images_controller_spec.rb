@@ -205,17 +205,16 @@ describe ImagesController do
     end
   end
 
-  describe "PUT redownload" do
-    it "redownloads image" do
-      Image.any_instance.expects(:download).once
-
-      put 'redownload', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :id => to_sort_image.id, :format => :js
+  describe "PUT transfert" do
+    it "transfers image" do
+      Image.expects(:transfert)
+      put 'transfert', :format => :json
+      response.status.should == 200
     end
   end
 
   describe "POST create" do
     let(:valid_params) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
-    
 
     context "valid params" do
       it "creates an image" do
@@ -265,7 +264,7 @@ describe ImagesController do
         post 'create', :format => :json, :website_id => website.id, :post_id => sorted_post.id, :image => valid_params
         sorted_post.reload.status.should == Post::TO_SORT_STATUS
       end
-    end 
+    end
 
     context "invalid image" do
       let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }

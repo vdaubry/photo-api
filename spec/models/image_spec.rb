@@ -50,4 +50,32 @@ describe Image do
 		it {Image.to_keep.should == [@img_to_keep]}
 		it {Image.to_delete.should == [@img_to_delete]}
 	end
+
+	describe "transfert" do
+		before (:each) do
+			@image1 = FactoryGirl.create(:image, :status => Image::TO_SORT_STATUS, :key => "image1")
+			@image2 = FactoryGirl.create(:image, :status => Image::TO_KEEP_STATUS, :key => "image2")
+			@image3 = FactoryGirl.create(:image, :status => Image::TO_DELETE_STATUS, :key => "image3")
+		end
+
+		it "deletes all images to_delete_status" do
+			Facades::Ftp.any_instance.expects(:delete_files).with(["image3"])
+			Image.transfert
+		end
+
+		it "copies all images to_keep" do
+			Facades::Ftp.any_instance.expects(:move_files_to_keep).with(["image2"])
+			Image.transfert
+		end
+
+		it "sets all images to_keep_status to kept_status" do
+			Image.transfert
+			@image2.reload.status.should == Image::KEPT_STATUS
+		end
+
+		it "sets all images to_delete_status to deleted_status" do
+			Image.transfert
+			@image3.reload.status.should == Image::DELETED_STATUS
+		end
+	end
 end

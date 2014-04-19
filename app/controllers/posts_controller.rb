@@ -28,9 +28,6 @@ class PostsController < ApplicationController
 
   def search
     posts = @website.posts.with_page_url(params[:page_url])
-
-    pp params[:page_url]
-
     respond_with posts
   end
 
@@ -45,7 +42,6 @@ class PostsController < ApplicationController
 
   def banish
     @post.update_attributes(banished: true)
-    
     render :json => {:latest_post => @website.latest_post_id} 
   end
 
