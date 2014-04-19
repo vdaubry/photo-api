@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
-  before_action :set_website, only: [:index, :update, :destroy, :destroy_all, :redownload, :search, :create]
-  before_action :set_post, only: [:index, :update, :destroy, :destroy_all, :redownload, :create]
-  before_action :set_image, only: [:update, :destroy, :redownload]
+  before_action :set_website, only: [:index, :update, :destroy, :destroy_all, :search, :create]
+  before_action :set_post, only: [:index, :update, :destroy, :destroy_all, :create]
+  before_action :set_image, only: [:update, :destroy]
   respond_to :json
 
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
@@ -87,11 +87,11 @@ class ImagesController < ApplicationController
     render :json => {:next_post_id => @website.latest_post_id}
   end 
 
-  def redownload
-    @image.download
-
-    render :json => {:status => "ok"}
+  def transfert
+    Image.transfert
+    render :json => {:status => :ok}
   end
+
 
   private
     def set_image

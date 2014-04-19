@@ -16,11 +16,8 @@ PhotoDownloader::Application.routes.draw do
       end
 
       resources :images do
-        member do
-          put 'redownload'
-        end
         collection do
-          delete 'destroy_all'
+          delete  'destroy_all'
         end
       end
     end
@@ -28,9 +25,16 @@ PhotoDownloader::Application.routes.draw do
     resources :scrappings, :only => [:create, :update]
 
     resources :images, :only => :index do
-      collection do  
+      collection do 
+        put 'transfert'
         get 'search'
       end
+    end
+  end
+
+  resources :images, shallow: true do
+    collection do 
+      put 'transfert'
     end
   end
 end
