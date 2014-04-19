@@ -17,9 +17,4 @@ class WebsiteSerializer < ActiveModel::Serializer
     object.images.where(:status => Image::TO_SORT_STATUS).count
   end
 
-  def latest_post_id
-    lp = object.latest_post
-    lp.nil? ? nil : lp._id.to_s
-  end
-
 end

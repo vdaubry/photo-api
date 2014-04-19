@@ -2,41 +2,40 @@ require 'spec_helper'
 
 describe PostsController do
   let(:website) { FactoryGirl.create(:website) }
+  let(:to_sort_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
+  let(:next_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
 
   describe "DELETE destroy" do  
-    let(:post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
-
     context "has next post" do
-      before(:each) do
-        @next_post = FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website)
-      end
       it "sets all remaining images to delete_status" do
-        FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_SORT_STATUS)
-        FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_KEEP_STATUS)
+        FactoryGirl.create_list(:image, 2, :post => to_sort_post, :status => Image::TO_SORT_STATUS)
+        FactoryGirl.create_list(:image, 2, :post => to_sort_post, :status => Image::TO_KEEP_STATUS)
 
-        delete 'destroy', :id => post.id, :website_id => website.id
+        delete 'destroy', :id => to_sort_post.id, :website_id => website.id
 
-        post.images.where(:status => Image::TO_SORT_STATUS).count.should == 0
-        post.images.where(:status => Image::TO_DELETE_STATUS).count.should == 2
-        post.images.where(:status => Image::TO_KEEP_STATUS).count.should == 2
+        to_sort_post.images.where(:status => Image::TO_SORT_STATUS).count.should == 0
+        to_sort_post.images.where(:status => Image::TO_DELETE_STATUS).count.should == 2
+        to_sort_post.images.where(:status => Image::TO_KEEP_STATUS).count.should == 2
       end
 
       it "sets post to sorted" do
-        delete 'destroy', :id => post.id, :website_id => website.id
+        delete 'destroy', :id => to_sort_post.id, :website_id => website.id
 
-        post.reload.status.should == Post::SORTED_STATUS
+        to_sort_post.reload.status.should == Post::SORTED_STATUS
       end
 
       it "renders next post" do
-        delete 'destroy', :id => post.id, :website_id => website.id
+        next_post
 
-        JSON.parse(response.body).should == {"latest_post"=> @next_post.id.to_s}
+        delete 'destroy', :id => to_sort_post.id, :website_id => website.id
+
+        JSON.parse(response.body).should == {"latest_post"=> next_post.id.to_s}
       end
     end
 
     context "no more posts" do
       it "renders null" do
-        delete 'destroy', :id => post.id, :website_id => website.id
+        delete 'destroy', :id => to_sort_post.id, :website_id => website.id
 
         JSON.parse(response.body).should == {"latest_post" => nil}
       end
@@ -127,15 +126,6 @@ describe PostsController do
       post.reload.pages_url.should =~ ["www.foo.bar","www.foo.bar1","www.foo.bar2"]
     end
 
-    it "sets post to banished" do
-      post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
-
-      put 'update', :format => :json, :website_id => website.id, :id => post.id, :post => {:banished => true}
-
-      post.reload.banished.should == true
-    end
-
-
     it "returns post" do
       post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
 
@@ -143,6 +133,22 @@ describe PostsController do
 
       post = JSON.parse(response.body)["post"]
       post["name"].should == "toto_11/22"
+    end
+  end
+
+  describe "PUT banish" do
+    it "sets post to banished" do
+      put 'banish', :format => :json, :website_id => website.id, :id => to_sort_post.id
+
+      to_sort_post.reload.banished.should == true
+    end
+
+    it "renders next post" do
+      next_post
+
+      put 'banish', :format => :json, :website_id => website.id, :id => to_sort_post.id
+
+      JSON.parse(response.body).should == {"latest_post"=> next_post.id.to_s}
     end
   end
 end

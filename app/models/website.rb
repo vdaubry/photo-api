@@ -8,8 +8,8 @@ class Website
   field :name, type: String
   field :url, type: String
 
-  def latest_post
-    self.posts.where(:status => Post::TO_SORT_STATUS, :banished => false).order_by(:updated_at => :asc).first
+  def latest_post_id
+    self.posts.where(:status => Post::TO_SORT_STATUS, :banished => false).order_by(:updated_at => :asc).first.id.to_s rescue nil
   end
 
 end

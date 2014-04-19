@@ -30,7 +30,7 @@ describe Post do
 				post = FactoryGirl.create(:post, :banished => false)
 				FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_SORT_STATUS)
 
-				post.update!({:banished => true})
+				post.update_attributes({:banished => true})
 
 				post.images.to_delete.count.should == 2
 			end
@@ -41,7 +41,7 @@ describe Post do
 				post = FactoryGirl.create(:post, :banished => true)
 				FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_SORT_STATUS)
 
-				post.update!({:banished => false})
+				post.update_attributes({:banished => false})
 
 				post.images.to_sort.count.should == 2
 			end
