@@ -8,7 +8,7 @@ gem 'kaminari',                 '~> 0.15.1'
 gem 'newrelic_rpm',             '~> 3.7.3.204'
 gem 'unicorn',                  '~> 4.8.2'
 gem 'net-sftp',                 '~> 2.1.2'
-gem 'sentry-raven',             '~> 0.7.1'
+gem 'sentry-raven',             '~> 0.8.0'
 gem 'librato-rails',            '~> 0.10.2'
 
 
