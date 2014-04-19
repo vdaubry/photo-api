@@ -84,8 +84,7 @@ class ImagesController < ApplicationController
     end
     @post.check_status!
 
-    next_post_id = @website.latest_post.id.to_s rescue nil
-    render :json => {:next_post_id => next_post_id}
+    render :json => {:next_post_id => @website.latest_post_id}
   end 
 
   def redownload

@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_website, only: [:destroy, :create, :search, :update]
-  before_action :set_post, only: [:destroy, :update]
+  before_action :set_website, only: [:destroy, :create, :search, :update, :banish]
+  before_action :set_post, only: [:destroy, :update, :banish]
   respond_to :json
 
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
@@ -9,11 +9,8 @@ class PostsController < ApplicationController
   def destroy
     @post.images.where(:status => Image::TO_SORT_STATUS).update_all(:status => Image::TO_DELETE_STATUS)
     @post.update_attributes(:status => Post::SORTED_STATUS)
-
-    latest_post = @website.latest_post
-    latest_post_id = latest_post.nil? ? nil : latest_post.id.to_s 
     
-    render :json => {:latest_post => latest_post_id} 
+    render :json => {:latest_post => @website.latest_post_id} 
   end
 
   def create
@@ -35,16 +32,18 @@ class PostsController < ApplicationController
   end
 
   def update
-    if params[:post][:page_url]
-      @post.add_to_set(pages_url: params[:post][:page_url])
-      @post.save
-    end
+    @post.add_to_set(pages_url: params[:post][:page_url])
+    @post.save
 
-    @post.update!(post_params)
-    
     respond_with @post do |format|
       format.json { render json: @post }
     end
+  end
+
+  def banish
+    @post.update_attributes(banished: true)
+    
+    render :json => {:latest_post => @website.latest_post_id} 
   end
 
 	private
@@ -56,9 +55,4 @@ class PostsController < ApplicationController
   def set_website
     @website = Website.find(params[:website_id])
   end
-
-	# Never trust parameters from the scary internet, only allow the white list through.
-	def post_params
-	  params.require(:post).permit(:banished)
-	end
 end

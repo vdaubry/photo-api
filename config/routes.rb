@@ -7,6 +7,10 @@ PhotoDownloader::Application.routes.draw do
     end
 
     resources :posts, :only => [:create, :destroy, :update] do
+      member do
+        put 'banish'
+      end
+
       collection do  
         get 'search'
       end

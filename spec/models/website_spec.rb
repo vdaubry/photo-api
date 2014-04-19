@@ -25,7 +25,7 @@ describe Website do
 		end
 	end
 
-	describe "latest_post" do
+	describe "latest_post_id" do
 		it "returns website post with status to sort ordered by updated_at ASC" do
 			post1 = FactoryGirl.create(:post, :website => website, :status => Post::SORTED_STATUS)
 			post2 = FactoryGirl.create(:post, :website => website, :status => Post::TO_SORT_STATUS, :updated_at => Date.parse("02/01/2010"), :created_at => Date.parse("02/01/2010"), :banished => false)
@@ -33,7 +33,7 @@ describe Website do
 			post4 = FactoryGirl.create(:post, :website => nil,		 :status => Post::TO_SORT_STATUS, :updated_at => Date.parse("01/01/2010"), :created_at => Date.parse("01/01/2010"), :banished => false)
 			post5 = FactoryGirl.create(:post, :website => website, :status => Post::TO_SORT_STATUS, :updated_at => Date.parse("01/01/2010"), :created_at => Date.parse("01/01/2010"), :banished => true)
 			
-			website.latest_post.should == post2
+			website.latest_post_id.should == post2.id.to_s
 		end
 	end
 end

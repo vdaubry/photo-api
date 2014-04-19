@@ -186,7 +186,7 @@ describe ImagesController do
 
     context "has next post" do
       it "renders next post id" do
-        Website.any_instance.stubs(:latest_post).returns(to_sort_post)
+        Website.any_instance.stubs(:latest_post_id).returns(to_sort_post.id.to_s)
 
         delete 'destroy_all', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "ids" => [to_sort_image.id]
 

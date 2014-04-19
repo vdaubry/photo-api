@@ -24,6 +24,30 @@ describe Post do
 		end
 	end
 
+	describe "callbacks" do
+		context "banished post" do
+			it "clears images" do
+				post = FactoryGirl.create(:post, :banished => false)
+				FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_SORT_STATUS)
+
+				post.update_attributes({:banished => true})
+
+				post.images.to_delete.count.should == 2
+			end
+		end
+
+		context "not banished post" do
+			it "doesn't clears images" do
+				post = FactoryGirl.create(:post, :banished => true)
+				FactoryGirl.create_list(:image, 2, :post => post, :status => Image::TO_SORT_STATUS)
+
+				post.update_attributes({:banished => false})
+
+				post.images.to_sort.count.should == 2
+			end
+		end
+	end
+
 	describe "scopes" do
 		before(:each) do
 			post_to_sort
