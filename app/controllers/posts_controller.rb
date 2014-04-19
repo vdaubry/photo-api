@@ -35,8 +35,13 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.add_to_set(pages_url: params[:post][:page_url])
-    @post.save
+    if params[:post][:page_url]
+      @post.add_to_set(pages_url: params[:post][:page_url])
+      @post.save
+    end
+
+    @post.update!(post_params)
+    
     respond_with @post do |format|
       format.json { render json: @post }
     end
@@ -54,6 +59,6 @@ class PostsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def post_params
-	  params.require(:post).permit(:id, :name)
+	  params.require(:post).permit(:banished)
 	end
 end

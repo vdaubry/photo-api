@@ -9,7 +9,7 @@ class Website
   field :url, type: String
 
   def latest_post
-    self.posts.where(:status => Post::TO_SORT_STATUS).first
+    self.posts.where(:status => Post::TO_SORT_STATUS, :banished => false).order_by(:updated_at => :asc).first
   end
 
 end

@@ -127,6 +127,15 @@ describe PostsController do
       post.reload.pages_url.should =~ ["www.foo.bar","www.foo.bar1","www.foo.bar2"]
     end
 
+    it "sets post to banished" do
+      post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
+
+      put 'update', :format => :json, :website_id => website.id, :id => post.id, :post => {:banished => true}
+
+      post.reload.banished.should == true
+    end
+
+
     it "returns post" do
       post = FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "toto_11/22")
 
