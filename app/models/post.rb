@@ -15,6 +15,8 @@ class Post
   validate :unique_name_per_scrapping, :on => :create
   validates_inclusion_of :status, in: [ TO_SORT_STATUS, SORTED_STATUS ]
 
+  after_save :delete_banished_images
+
   scope :to_sort, -> {where(:status => TO_SORT_STATUS)}
   scope :sorted, -> {where(:status => SORTED_STATUS)}
   scope :with_page_url, ->(url) {where(:pages_url.in => [url])}
@@ -31,6 +33,10 @@ class Post
 
   def unique_name_per_scrapping
     errors.add :name, 'must be unique' if scrapping.present? && Post.where(:scrapping => scrapping, :name => name).size > 0
+  end
+
+  def delete_banished_images
+    self.images.update_all(:status => Image::TO_DELETE_STATUS) if self.banished_changed? && self.banished
   end
 
 end
