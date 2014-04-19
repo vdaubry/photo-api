@@ -28,6 +28,9 @@ class PostsController < ApplicationController
 
   def search
     posts = @website.posts.with_page_url(params[:page_url])
+
+    pp params[:page_url]
+
     respond_with posts
   end
 

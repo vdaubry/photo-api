@@ -115,6 +115,18 @@ describe PostsController do
       posts.count.should == 1
       posts[0]["name"].should == "toto_11/22"
     end
+
+    it "doesn't return post not mathcing url" do
+      FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "post1")
+      FactoryGirl.create(:post, :website => website, :pages_url => ["www.foo.bar1","www.foo.bar2"], :name => "post2")
+      FactoryGirl.create(:post, :pages_url => ["www.foo.bar","www.foo.bar1","www.foo.bar2"], :name => "post3")
+
+      get 'search', :format => :json, :website_id => website.id, :page_url => "www.foo.bar"
+
+      posts = JSON.parse(response.body)["posts"]
+      posts.count.should == 1
+      posts[0]["name"].should == "post1"
+    end
   end
 
   describe "PUT update" do

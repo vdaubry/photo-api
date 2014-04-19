@@ -35,5 +35,10 @@ describe Website do
 			
 			website.latest_post_id.should == post2.id.to_s
 		end
+
+		it "returns website post when none is banished" do
+			post1 = FactoryGirl.create(:post, :website => website, :status => Post::TO_SORT_STATUS, :banished => nil)
+			website.latest_post_id.should == post1.id.to_s
+		end
 	end
 end
