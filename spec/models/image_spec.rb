@@ -24,9 +24,18 @@ describe Image do
 		end
 
 		context "too small" do
-			it { FactoryGirl.build(:image, :width => 300, :height => 300).save.should == true }
-			it { FactoryGirl.build(:image, :width => 299).save.should == false }
-			it { FactoryGirl.build(:image, :height => 299).save.should == false }
+
+			it "saves all images" do
+				FactoryGirl.build(:image, :width => 300, :height => 300).save.should == true
+				FactoryGirl.build(:image, :width => 299).save.should == true
+				FactoryGirl.build(:image, :height => 299).save.should == true
+			end
+
+			it "sets small images to TO_DELETE status" do
+				FactoryGirl.create(:image, :width => 300, :height => 300, :status => Image::TO_SORT_STATUS).status.should == Image::TO_SORT_STATUS
+				FactoryGirl.create(:image, :width => 299, :status => Image::TO_SORT_STATUS).status.should == Image::TO_DELETE_STATUS
+				FactoryGirl.create(:image, :height => 299, :status => Image::TO_SORT_STATUS).status.should == Image::TO_DELETE_STATUS
+			end
 		end
 	end
 
