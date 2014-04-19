@@ -9,6 +9,8 @@ describe Post do
 		context "valid" do
 			it { FactoryGirl.build(:post).save.should == true }
 
+			it { FactoryGirl.create(:post, :banished => true).banished.should == true }
+
 			it { 
 				images = FactoryGirl.create_list(:image, 2)
 				post = FactoryGirl.create(:post)

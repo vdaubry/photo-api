@@ -5,5 +5,6 @@ FactoryGirl.define do
     pages_url []
     scrapping { FactoryGirl.create(:scrapping) }
     website { FactoryGirl.create(:website) }
+    banished false
   end
 end

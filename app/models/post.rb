@@ -7,6 +7,7 @@ class Post
   field :name, type: String
   field :status, type: String, default: Post::TO_SORT_STATUS
   field :pages_url, type: Array
+  field :banished, type: Boolean
   has_many :images
   belongs_to :scrapping
   belongs_to :website
