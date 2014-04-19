@@ -271,13 +271,22 @@ describe ImagesController do
       let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
       let(:image_too_small) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 200, :height => 400, :file_size => 123678} }
 
-      it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => missing_key }.to change{Image.count}.by(0) }
-      it { expect { post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small }.to change{Image.count}.by(0) }
+      it "doesn't save images" do
+        expect { 
+          post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => missing_key 
+        }.to change{Image.count}.by(0)
+      end
+      
+      it "saves images even if too small" do
+       expect { 
+          post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small 
+        }.to change{Image.count}.by(1)
+      end
 
       it "returns image error" do
-        post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => image_too_small
+        post 'create', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, :image => missing_key
 
-        JSON.parse(response.body).should == {"errors"=>["Width too small"]}
+        JSON.parse(response.body).should == {"errors"=>["Key can't be blank"]}
         response.status.should == 422
       end
     end 

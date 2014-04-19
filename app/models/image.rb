@@ -23,8 +23,9 @@ class Image
   field :hosting_url, type: String
 
   validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, presence: true, allow_blank: false, allow_nil: false
-  validate :image_size, :on => :create
   validates_inclusion_of :status, in: [ TO_KEEP_STATUS, TO_SORT_STATUS, TO_DELETE_STATUS, DELETED_STATUS, KEPT_STATUS ]
+
+  before_create :check_image_size
 
   scope :to_sort, -> {where(:status => TO_SORT_STATUS)}
   scope :to_keep, -> {where(:status => TO_KEEP_STATUS)}
@@ -34,8 +35,9 @@ class Image
 
   private
 
-  def image_size
-    self.errors.add :width, 'too small' if width && width < 300
-    self.errors.add :height, 'too small' if height && height < 300
+  def check_image_size
+    width_too_small = width && width < 300
+    height_too_small = height && height < 300
+    self.status=TO_DELETE_STATUS if width_too_small or height_too_small
   end
 end

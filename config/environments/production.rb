@@ -83,7 +83,7 @@ PhotoDownloader::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   FTP_ADRESS = '92.222.1.55'
-  IMAGES_PATH="/home/ubuntu/ftp/images/production/to_sort"
-  THUMBNAILS_PATH="/home/ubuntu/ftp/images/production/to_sort/thumbnails/300"  
-  SAVE_PATH="/home/ubuntu/ftp/backup/Pic/New"
+  IMAGES_PATH="/home/ftpuser/ftp/images/production/to_sort"
+  THUMBNAILS_PATH="/home/ftpuser/ftp/images/production/to_sort/thumbnails/300"  
+  SAVE_PATH="/home/ftpuser/ftp/backup/Pic/New"
 end

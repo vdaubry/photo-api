@@ -26,7 +26,7 @@ PhotoDownloader::Application.configure do
   config.assets.debug = true
 
   FTP_ADRESS = '92.222.1.55'
-  IMAGES_PATH="/home/ubuntu/ftp/images/development/to_sort"
-  THUMBNAILS_PATH="/home/ubuntu/ftp/images/developmen/to_sort/thumbnails/300"  
-  SAVE_PATH="/home/ubuntu/ftp/backup/Pic/New"
+  IMAGES_PATH="/home/ftpuser/ftp/images/development/to_sort"
+  THUMBNAILS_PATH="/home/ftpuser/ftp/images/developmen/to_sort/thumbnails/300"  
+  SAVE_PATH="/home/ftpuser/ftp/backup/Pic/New"
 end
