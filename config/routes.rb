@@ -1,6 +1,12 @@
 PhotoDownloader::Application.routes.draw do
   get 'ping', to: 'application#ping'
 
+  resources :images, shallow: true do
+    collection do 
+      put 'transfert'
+    end
+  end
+
   resources :websites do
     collection do
       get 'search'
@@ -29,12 +35,6 @@ PhotoDownloader::Application.routes.draw do
         put 'transfert'
         get 'search'
       end
-    end
-  end
-
-  resources :images, shallow: true do
-    collection do 
-      put 'transfert'
     end
   end
 end
