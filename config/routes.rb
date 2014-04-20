@@ -1,6 +1,9 @@
 PhotoDownloader::Application.routes.draw do
   get 'ping', to: 'application#ping'
 
+  #For CORS support
+  match "/*path" => "application#options", via: [:options]
+
   resources :images, shallow: true do
     collection do 
       put 'transfert'
