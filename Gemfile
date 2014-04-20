@@ -10,6 +10,7 @@ gem 'unicorn',                  '~> 4.8.2'
 gem 'net-sftp',                 '~> 2.1.2'
 gem 'sentry-raven',             '~> 0.8.0'
 gem 'librato-rails',            '~> 0.10.2'
+gem 'resque',                   '~> 1.25.2'
 
 
 group :test do
