@@ -2,7 +2,7 @@
 SSHKit.config.command_map[:rake] = "bundle exec rake"
 
 # config valid only for Capistrano 3.1
-lock '3.1.0'
+lock '3.2.1'
 
 set :application, 'photo-visualizer'
 set :repo_url, 'git@github.com:vdaubry/photo-downloader.git'
@@ -68,18 +68,10 @@ namespace :deploy do
     end
   end
 
-  desc 'Start resque worker'
-  task :start_resque do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute "cd #{current_path} && RAILS_ENV=production QUEUE=* PIDFILE=#{shared_path}/pids/resque.pid BACKGROUND=yes VERBOSE=1 bundle exec rake environment resque:work"
-    end
-  end
-
-  desc 'Stop resque worker'
-  task :stop_resque do
+  desc 'Restart resque worker'
+  task :notify_restart do
     on roles(:app) do
-      #kill process saved in unicorn.pid and ignore errors
-      execute "kill -s QUIT `cat #{shared_path}/pids/resque.pid` || true"
+      execute "touch #{current_path}/tmp/restart.txt"
     end
   end
 
@@ -108,10 +100,5 @@ namespace :deploy do
   before :compile_assets, :copy_production
   after :publishing, :stop
   after :publishing, :start
-  after :published, :stop_resque
-  after :published, :start_resque
-
-
-  end
-
+  after :published, :notify_restart
 end
