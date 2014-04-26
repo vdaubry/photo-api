@@ -1,3 +1,5 @@
+require 'resque/server'
+
 PhotoDownloader::Application.routes.draw do
   get 'ping', to: 'application#ping'
 
@@ -40,4 +42,6 @@ PhotoDownloader::Application.routes.draw do
       end
     end
   end
+
+  mount Resque::Server.new, at: "/resque"
 end
