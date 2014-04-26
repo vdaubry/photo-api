@@ -88,7 +88,7 @@ class ImagesController < ApplicationController
   end 
 
   def transfert
-    Image.transfert
+    Resque.enqueue(ImageTransfert)
     render :json => {:status => :ok}
   end
 

@@ -6,6 +6,7 @@ require 'rspec/autorun'
 require 'stub_chain_mocha'
 require 'coveralls'
 Coveralls.wear!
+Resque.inline = true
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

@@ -18,4 +18,12 @@ God.watch do |w|
       c.running = false
     end
   end
+
+  w.transition(:up, :restart) do |on|
+      # restart if server is restarted
+      on.condition(:file_touched) do |c|
+        c.interval = 5.seconds
+        c.path = File.join(rails_root, 'tmp', 'restart.txt')
+      end
+    end
 end
