@@ -68,6 +68,21 @@ namespace :deploy do
     end
   end
 
+  desc 'Start resque worker'
+  task :start_resque do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "cd #{current_path} && RAILS_ENV=production QUEUE=* PIDFILE=#{shared_path}/pids/resque.pid BACKGROUND=yes VERBOSE=1 bundle exec rake environment resque:work"
+    end
+  end
+
+  desc 'Stop resque worker'
+  task :stop_resque do
+    on roles(:app) do
+      #kill process saved in unicorn.pid and ignore errors
+      execute "kill -s QUIT `cat #{shared_path}/pids/resque.pid` || true"
+    end
+  end
+
   desc 'Start unicorn'
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
@@ -93,15 +108,10 @@ namespace :deploy do
   before :compile_assets, :copy_production
   after :publishing, :stop
   after :publishing, :start
-  after :published, :start
+  after :published, :stop_resque
+  after :published, :start_resque
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
+
   end
 
 end

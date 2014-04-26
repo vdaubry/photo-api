@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                    '4.1.0'
+gem 'rails',                    '~> 4.1.0'
 gem 'mongoid',                  git: 'git://github.com/mongoid/mongoid.git'
 gem 'figaro',                   '~> 0.7.0'
 gem 'active_model_serializers', '~> 0.8.1'
@@ -11,6 +11,8 @@ gem 'net-sftp',                 '~> 2.1.2'
 gem 'sentry-raven',             '~> 0.8.0'
 gem 'librato-rails',            '~> 0.10.2'
 gem 'resque',                   '~> 1.25.2'
+gem 'resque-web',               '~> 0.0.5'
+
 
 
 group :test do
