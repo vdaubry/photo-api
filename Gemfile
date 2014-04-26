@@ -12,8 +12,7 @@ gem 'sentry-raven',             '~> 0.8.0'
 gem 'librato-rails',            '~> 0.10.2'
 gem 'resque',                   '~> 1.25.2'
 gem 'resque-web',               '~> 0.0.5'
-
-
+gem 'resque-scheduler',         '~> 2.5.5'
 
 group :test do
   gem 'coveralls',              '~> 0.7.0', require: false

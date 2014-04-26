@@ -1,0 +1,3 @@
+PostCleaner:
+  every:
+    - "5s"
