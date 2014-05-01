@@ -39,6 +39,17 @@ describe ImagesController do
         images = JSON.parse(response.body)["images"]
         images.count.should == 50
       end
+
+      it "returns only to_sort_images" do
+        to_sort_image
+        FactoryGirl.create(:image, :status => Image::KEPT_STATUS, :website => website, :post => to_sort_post)
+
+        get 'index', :format => :json, :website_id => website.id, :post_id => to_sort_post.id, "status" => Image::TO_SORT_STATUS
+
+        images = JSON.parse(response.body)["images"]
+        images.count.should == 1
+        images.first["id"].should == to_sort_image.id.to_s
+      end
     end
 
     context "to keep images" do

@@ -24,7 +24,6 @@ describe Image do
 		end
 
 		context "too small" do
-
 			it "saves all images" do
 				FactoryGirl.build(:image, :width => 300, :height => 300).save.should == true
 				FactoryGirl.build(:image, :width => 299).save.should == true
@@ -35,6 +34,20 @@ describe Image do
 				FactoryGirl.create(:image, :width => 300, :height => 300, :status => Image::TO_SORT_STATUS).status.should == Image::TO_SORT_STATUS
 				FactoryGirl.create(:image, :width => 299, :status => Image::TO_SORT_STATUS).status.should == Image::TO_DELETE_STATUS
 				FactoryGirl.create(:image, :height => 299, :status => Image::TO_SORT_STATUS).status.should == Image::TO_DELETE_STATUS
+			end
+		end
+
+		context "similar image with different source_url" do
+			it "doesn't save image" do
+				FactoryGirl.create(:image, :image_hash => "abcd")
+				FactoryGirl.build(:image, :image_hash => "abcd").save.should == false
+			end
+		end
+
+		context "image with same source_url already exists" do
+			it "doesn't save image" do
+				FactoryGirl.create(:image, :source_url => "http://www.foo.bar/img.png")
+				FactoryGirl.build(:image, :source_url => "http://www.foo.bar/img.png").save.should == false
 			end
 		end
 	end

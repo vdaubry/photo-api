@@ -6,7 +6,7 @@ FactoryGirl.define do
     file_size 1234
     width 1234
     height 1234
-    source_url "string"
+    sequence(:source_url ) { |n| "http://www.foo.bar/#{n}.jpg" }
     website { FactoryGirl.create(:website) }
   end
 end
