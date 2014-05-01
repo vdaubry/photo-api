@@ -5,7 +5,7 @@ SSHKit.config.command_map[:rake] = "bundle exec rake"
 lock '3.2.1'
 
 set :application, 'photo-visualizer'
-set :repo_url, 'git@github.com:vdaubry/photo-downloader.git'
+set :repo_url, 'git@github.com:vdaubry/photo-api.git'
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :ssh_options, { :forward_agent => true }

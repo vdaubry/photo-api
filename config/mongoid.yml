@@ -5,7 +5,7 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      #database: photo_downloader_developmenturi: <%= ENV['MONGOHQ_URL'] %>
+      #database: photo_api_developmenturi: <%= ENV['MONGOHQ_URL'] %>
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       uri: <%= ENV['MONGODB_URL'] %>
@@ -62,7 +62,7 @@ production:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      #database: photo_downloader_developmenturi: <%= ENV['MONGOHQ_URL'] %>
+      #database: photo_api_developmenturi: <%= ENV['MONGOHQ_URL'] %>
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       uri: <%= ENV['MONGODB_URL'] %>
@@ -115,7 +115,7 @@ production:
 test:
   sessions:
     default:
-      database: photo_downloader_test
+      database: photo_api_test
       hosts:
         - localhost:27017
       options:

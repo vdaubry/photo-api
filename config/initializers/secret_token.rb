@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-PhotoDownloader::Application.config.secret_key_base = Rails.env.production? ? ENV['SECRET_KEY_BASE'] : ('x' * 30) # meets minimum requirement of 30 chars long
+PhotoApi::Application.config.secret_key_base = Rails.env.production? ? ENV['SECRET_KEY_BASE'] : ('x' * 30) # meets minimum requirement of 30 chars long

@@ -1,6 +1,6 @@
 require 'resque/server'
 
-PhotoDownloader::Application.routes.draw do
+PhotoApi::Application.routes.draw do
   get 'ping', to: 'application#ping'
 
   #For CORS support
