@@ -41,7 +41,7 @@ set :deploy_to, '/srv/www/photo-visualizer'
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
-set :keep_releases, 1
+set :keep_releases, 2
 
 #set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
 

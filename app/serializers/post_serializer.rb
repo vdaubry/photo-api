@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :name, :status
+  attributes :id, :name, :status, :banished
 
   def id
     object.id.to_s

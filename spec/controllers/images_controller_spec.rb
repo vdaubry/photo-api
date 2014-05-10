@@ -4,6 +4,7 @@ describe ImagesController do
   let(:website) { FactoryGirl.create(:website) }
   let(:to_sort_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
   let(:sorted_post) { FactoryGirl.create(:post, :status => Post::SORTED_STATUS, :website => website) }
+  let(:banished_post) { FactoryGirl.create(:post, :status => Post::SORTED_STATUS, :website => website, :banished => true) }
   let(:to_sort_image) { FactoryGirl.create(:image, :status => Image::TO_SORT_STATUS, :website => website, :post => to_sort_post) }
 
   describe "GET index" do
@@ -276,6 +277,13 @@ describe ImagesController do
         sorted_post.reload.status.should == Post::TO_SORT_STATUS
       end
     end
+
+    context "post is banished" do
+      it "updates image status to to_delete" do
+        post 'create', :format => :json, :website_id => website.id, :post_id => banished_post.id, :image => valid_params
+        banished_post.images.last.status.should == Image::TO_DELETE_STATUS
+      end
+    end    
 
     context "invalid image" do
       let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }

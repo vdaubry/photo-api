@@ -30,6 +30,8 @@ class ImagesController < ApplicationController
 
     #TODO rendre les erreurs => https://github.com/json-api/json-api/issues/7
     image = @post.images.new(post_params.merge(:website => @website))
+    image.status = Image::TO_DELETE_STATUS if @post.banished
+
     if image.save
       Librato.increment 'image.create'
       Librato.increment "#{@website.name.gsub(' ', '-')}.image.create"
