@@ -12,13 +12,13 @@ if env == "production"
   # listen on both a Unix domain socket and a TCP port,
   # we use a shorter backlog for quicker failover when busy
 
-  listen "/tmp/unicorn.photo-visualizer.sock", backlog: 64
+  listen "/tmp/unicorn.photo-api.sock", backlog: 64
 
-  pid "/srv/www/photo-visualizer/shared/pids/unicorn.pid"
+  pid "/srv/www/photo-api/shared/pids/unicorn.pid"
 
   # feel free to point this anywhere accessible on the filesystem
   #user 'deploy'
-  current_path = "/srv/www/photo-visualizer/current"
+  current_path = "/srv/www/photo-api/current"
   stderr_path "#{current_path}/log/unicorn.log"
   stdout_path "#{current_path}/log/unicorn.log"
 

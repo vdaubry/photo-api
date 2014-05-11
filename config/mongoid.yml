@@ -9,7 +9,6 @@ development:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       uri: <%= ENV['MONGODB_URL'] %>
-      #uri: mongodb://leech:klrPcKhe@troup.mongohq.com:10051/photo-visualizer
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -66,7 +65,6 @@ production:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       uri: <%= ENV['MONGODB_URL'] %>
-      #uri: mongodb://leech:klrPcKhe@troup.mongohq.com:10051/photo-visualizer
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:

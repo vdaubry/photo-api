@@ -4,7 +4,7 @@ SSHKit.config.command_map[:rake] = "bundle exec rake"
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'photo-visualizer'
+set :application, 'photo-api'
 set :repo_url, 'git@github.com:vdaubry/photo-api.git'
 set :branch, "master"
 set :deploy_via, :remote_cache
@@ -17,7 +17,7 @@ set :stages, ["production"]
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/srv/www/photo-visualizer'
+set :deploy_to, '/srv/www/photo-api'
 
 # Default value for :scm is :git
 # set :scm, :git
