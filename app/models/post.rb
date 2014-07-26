@@ -35,6 +35,7 @@ class Post
     errors.add :name, 'must be unique' if scrapping.present? && Post.where(:scrapping => scrapping, :name => name).size > 0
   end
 
+  #TODO : remplacer par une méthode banish => set tle status du post à sorted, toutes les images à to_delete et banished = true
   def delete_banished_images
     self.images.update_all(:status => Image::TO_DELETE_STATUS) if self.banished_changed? && self.banished
   end
