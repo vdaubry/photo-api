@@ -4524,3 +4524,5 @@ I, [2014-08-15T12:24:53.189454 #25825]  INFO -- : Running before_fork hooks with
 I, [2014-08-15T12:24:53.462528 #28466]  INFO -- : Running after_fork hooks with [(Job{image_transfert} | ImageTransfert | [])]
 I, [2014-08-15T12:25:06.698428 #29800]  INFO -- : Starting worker mbp-de-vincent:29800:*
 I, [2014-08-15T12:25:06.841500 #29800]  INFO -- : Running before_first_fork hooks
+I, [2014-08-15T20:27:15.427875 #64030]  INFO -- : Starting worker mbp-de-vincent:64030:*
+I, [2014-08-15T20:27:15.631161 #64030]  INFO -- : Running before_first_fork hooks

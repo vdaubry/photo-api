@@ -17,7 +17,7 @@ gem 'resque-scheduler',           '~> 3.0.0'
 group :test do  
   gem 'coveralls',                '~> 0.7.0', require: false
   gem 'mocha',                    '~> 1.1.0'
-  gem "rspec-rails",              '~> 3.0.2'
+  gem 'rspec-rails',              '~> 3.0.2'
   gem 'factory_girl_rails',       '~> 4.4.1'
 end
 
