@@ -24,7 +24,8 @@ class Image
 
   validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, presence: true, allow_blank: false, allow_nil: false
   validates_inclusion_of :status, in: [ TO_KEEP_STATUS, TO_SORT_STATUS, TO_DELETE_STATUS, DELETED_STATUS, KEPT_STATUS ]
-  validates_uniqueness_of :image_hash, :source_url
+  validates_uniqueness_of :image_hash, :source_url, :key
+  validate :forbidden_image_hash
 
   before_create :check_image_size
 
@@ -33,6 +34,16 @@ class Image
   scope :to_delete, -> {where(:status => TO_DELETE_STATUS)}
 
   paginates_per 50
+
+  def forbidden_image_hash
+    #image hashes for error images : rate limited, image not found, etc
+    forbidden_hashes = ["70bdfc7b6bc66aa8e71cf1915a1cf3fa"]
+    if forbidden_hashes.include?(image_hash)
+      errors.add(:image_hash, "Image cannot be saved : hash is forbidden. \n #{attributes}")
+      Rails.logger.error("Received a forbidden hash : #{attributes}")
+    end
+
+  end
 
   def self.transfert
     raise "Cannot sort images when calinours safety is on !!" if Image.first.key == "calinours.jpg"

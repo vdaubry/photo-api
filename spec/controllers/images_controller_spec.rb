@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ImagesController do
   let(:website) { FactoryGirl.create(:website) }
