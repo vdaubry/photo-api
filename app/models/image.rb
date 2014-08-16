@@ -24,7 +24,7 @@ class Image
 
   validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, presence: true, allow_blank: false, allow_nil: false
   validates_inclusion_of :status, in: [ TO_KEEP_STATUS, TO_SORT_STATUS, TO_DELETE_STATUS, DELETED_STATUS, KEPT_STATUS ]
-  validates_uniqueness_of :image_hash, :source_url
+  validates_uniqueness_of :image_hash, :source_url, :key
   validate :forbidden_image_hash
 
   before_create :check_image_size
