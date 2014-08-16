@@ -56,6 +56,13 @@ describe Image do
 				FactoryGirl.build(:image, :image_hash => "70bdfc7b6bc66aa8e71cf1915a1cf3fa").save.should == false
 			end
 		end
+
+		context "duplicate key" do
+			it "doesn't save image" do
+				FactoryGirl.build(:image, :key => "azerty").save.should == true
+				FactoryGirl.build(:image, :key => "azerty").save.should == false
+			end
+		end		
 	end
 
 	describe "scopes" do
