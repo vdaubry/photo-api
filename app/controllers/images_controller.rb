@@ -14,7 +14,7 @@ class ImagesController < ApplicationController
     status = params["status"].nil? ? Image::TO_SORT_STATUS : params["status"]
     
     if status==Image::TO_SORT_STATUS
-      @images = @post.images.where(:status => status).asc(:created_at).page(params[:page])
+      @images = @post.images.where(:status => status).asc(:scrapped_at).page(params[:page])
     else 
       @images = @website.images.where(:status => status).desc(:updated_at).page(params[:page])
     end
@@ -110,6 +110,6 @@ class ImagesController < ApplicationController
 
       # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:image).permit(:key, :source_url, :hosting_url, :status, :image_hash, :width, :height, :file_size)
+      params.require(:image).permit(:key, :source_url, :hosting_url, :status, :image_hash, :width, :height, :file_size, :scrapped_at)
     end
 end

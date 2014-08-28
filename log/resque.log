@@ -4526,3 +4526,68 @@ I, [2014-08-15T12:25:06.698428 #29800]  INFO -- : Starting worker mbp-de-vincent
 I, [2014-08-15T12:25:06.841500 #29800]  INFO -- : Running before_first_fork hooks
 I, [2014-08-15T20:27:15.427875 #64030]  INFO -- : Starting worker mbp-de-vincent:64030:*
 I, [2014-08-15T20:27:15.631161 #64030]  INFO -- : Running before_first_fork hooks
+I, [2014-08-17T09:18:47.843084 #79642]  INFO -- : Starting worker mbp-de-vincent:79642:*
+I, [2014-08-17T09:18:49.209009 #79642]  INFO -- : Running before_first_fork hooks
+I, [2014-08-17T09:42:25.102568 #81612]  INFO -- : Starting worker mbp-de-vincent:81612:*
+I, [2014-08-17T09:42:25.374204 #81612]  INFO -- : Running before_first_fork hooks
+I, [2014-08-17T10:36:33.738370 #81612]  INFO -- : Error reserving job: #<Redis::TimeoutError: Connection timed out>
+I, [2014-08-17T10:36:33.756596 #81612]  INFO -- : /Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/connection/ruby.rb:55:in `rescue in _read_from_socket'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/connection/ruby.rb:48:in `_read_from_socket'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/connection/ruby.rb:41:in `gets'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/connection/ruby.rb:273:in `read'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:238:in `block in read'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:226:in `io'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:237:in `read'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:102:in `block in call'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:207:in `block (2 levels) in process'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:329:in `ensure_connected'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:197:in `block in process'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:279:in `logging'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:196:in `process'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis/client.rb:102:in `call'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis.rb:1315:in `block in smembers'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis.rb:37:in `block in synchronize'
+/Users/vincentdaubry/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/monitor.rb:211:in `mon_synchronize'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis.rb:37:in `synchronize'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-3.1.0/lib/redis.rb:1314:in `smembers'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-namespace-1.5.1/lib/redis/namespace.rb:392:in `call_with_namespace'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/redis-namespace-1.5.1/lib/redis/namespace.rb:289:in `method_missing'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque.rb:259:in `queues'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:311:in `glob_match'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:302:in `block in queues'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:300:in `map'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:300:in `queues'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:263:in `reserve'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:169:in `block in work'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:166:in `loop'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/worker.rb:166:in `work'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/resque-1.25.2/lib/resque/tasks.rb:41:in `block (2 levels) in <top (required)>'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:240:in `call'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:240:in `block in execute'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:235:in `each'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:235:in `execute'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:179:in `block in invoke_with_call_chain'
+/Users/vincentdaubry/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/monitor.rb:211:in `mon_synchronize'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:172:in `invoke_with_call_chain'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/task.rb:165:in `invoke'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:150:in `invoke_task'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:106:in `block (2 levels) in top_level'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:106:in `each'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:106:in `block in top_level'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:115:in `run_with_threads'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:100:in `top_level'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:78:in `block in run'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:176:in `standard_exception_handling'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/lib/rake/application.rb:75:in `run'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/gems/rake-10.3.2/bin/rake:33:in `<top (required)>'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/bin/rake:23:in `load'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/bin/rake:23:in `<main>'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/bin/ruby_executable_hooks:15:in `eval'
+/Users/vincentdaubry/.rvm/gems/ruby-2.1.2@ph-api/bin/ruby_executable_hooks:15:in `<main>'
+I, [2014-08-17T10:36:33.756755 #81612]  INFO -- : Failed to start worker : #<Redis::TimeoutError: Connection timed out>
+I, [2014-08-17T17:46:08.236133 #86266]  INFO -- : Starting worker mbp-de-vincent:86266:*
+I, [2014-08-17T17:46:08.469612 #86266]  INFO -- : Running before_first_fork hooks
+I, [2014-08-17T17:46:30.702467 #86266]  INFO -- : got: (Job{image_transfert} | ImageTransfert | [])
+I, [2014-08-17T17:46:30.837523 #86266]  INFO -- : Running before_fork hooks with [(Job{image_transfert} | ImageTransfert | [])]
+I, [2014-08-17T17:46:31.119777 #86544]  INFO -- : Running after_fork hooks with [(Job{image_transfert} | ImageTransfert | [])]
+I, [2014-08-17T17:46:35.949545 #86544]  INFO -- : done: (Job{image_transfert} | ImageTransfert | [])
