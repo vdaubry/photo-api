@@ -21,8 +21,9 @@ class Image
   field :height, type: Integer
   field :source_url, type: String
   field :hosting_url, type: String
+  field :scrapped_at, type: DateTime
 
-  validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, presence: true, allow_blank: false, allow_nil: false
+  validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, :scrapped_at, presence: true, allow_blank: false, allow_nil: false
   validates_inclusion_of :status, in: [ TO_KEEP_STATUS, TO_SORT_STATUS, TO_DELETE_STATUS, DELETED_STATUS, KEPT_STATUS ]
   validates_uniqueness_of :image_hash, :source_url, :key
   validate :forbidden_image_hash

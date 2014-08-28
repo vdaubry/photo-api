@@ -17,6 +17,7 @@ describe Image do
 			it { FactoryGirl.build(:image, :source_url => nil).save.should == false }
 			it { FactoryGirl.build(:image, :post => nil).save.should == true }
 			it { FactoryGirl.build(:image, :website => nil).save.should == false }
+			it { FactoryGirl.build(:image, :scrapped_at => nil).save.should == false }
 		end
 
 		context "invalid status" do

@@ -226,7 +226,15 @@ describe ImagesController do
   end
 
   describe "POST create" do
-    let(:valid_params) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
+    let(:valid_params) { {:key => "12345_calinours.png", 
+      :source_url => "www.foo.bar/img.png", 
+      :hosting_url => "www.foo.bar", 
+      :status => Image::TO_SORT_STATUS, 
+      :image_hash => "AZERTY1234", 
+      :width => 400, 
+      :height => 400, 
+      :file_size => 123678, 
+      :scrapped_at => DateTime.parse("20/10/2010")} }
 
     context "valid params" do
       it "creates an image" do
@@ -241,7 +249,7 @@ describe ImagesController do
         saved_image = Image.last
         saved_image.website.should == website
         saved_image.post.should == to_sort_post
-        JSON.parse(saved_image.to_json).except("_id", "created_at", "updated_at", "website_id", "post_id").should == {"file_size"=>123678, "height"=>400, "hosting_url"=>"www.foo.bar", "image_hash"=>"AZERTY1234", "key"=>"12345_calinours.png", "source_url"=>"www.foo.bar/img.png", "status"=>"TO_SORT_STATUS", "width"=>400}
+        JSON.parse(saved_image.to_json).except("_id", "created_at", "updated_at", "website_id", "post_id").should == {"file_size"=>123678, "height"=>400, "hosting_url"=>"www.foo.bar", "image_hash"=>"AZERTY1234", "key"=>"12345_calinours.png", "scrapped_at" => "2010-10-20T00:00:00.000+00:00", "source_url"=>"www.foo.bar/img.png", "status"=>"TO_SORT_STATUS", "width"=>400}
       end
     end
 
@@ -286,8 +294,8 @@ describe ImagesController do
     end    
 
     context "invalid image" do
-      let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678} }
-      let(:image_too_small) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 200, :height => 400, :file_size => 123678} }
+      let(:missing_key) { {:source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 400, :height => 400, :file_size => 123678, :scrapped_at => DateTime.parse("20/10/2010")} }
+      let(:image_too_small) { {:key => "12345_calinours.png", :source_url => "www.foo.bar/img.png", :hosting_url => "www.foo.bar", :status => Image::TO_SORT_STATUS, :image_hash => "AZERTY1234", :width => 200, :height => 400, :file_size => 123678, :scrapped_at => DateTime.parse("20/10/2010")} }
 
       it "doesn't save images" do
         expect { 
