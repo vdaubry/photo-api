@@ -7,6 +7,8 @@ PhotoApi::Application.routes.draw do
   #For CORS support
   match "/*path" => "application#options", via: [:options]
 
+  resources :tokens
+
   resources :images, shallow: true do
     collection do 
       put 'transfert'

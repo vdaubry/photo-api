@@ -26,14 +26,11 @@ class User
 
   validates_uniqueness_of :email, :authentication_token
 
-  before_save :assign_token 
-
-  def assign_token
-    if self.authentication_token.nil?
-      loop do
-        self.authentication_token = SecureRandom.urlsafe_base64(30).tr('lIO0', 'sxyz')
-        break if User.where(:authentication_token => authentication_token).count == 0
-      end
+  def assign_authentication_token!
+    loop do
+      self.authentication_token = SecureRandom.urlsafe_base64(30).tr('lIO0', 'sxyz')
+      break if User.where(:authentication_token => authentication_token).count == 0
     end
+    save
   end
 end
