@@ -1,6 +1,7 @@
 require 'resque/server'
 
 PhotoApi::Application.routes.draw do
+  devise_for :users
   get 'ping', to: 'application#ping'
 
   #For CORS support
