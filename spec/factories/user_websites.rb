@@ -1,6 +1,7 @@
 FactoryGirl.define do
-  factory :website do
+  factory :user_website do
     name "string"
     url "string" 
+    user { FactoryGirl.create(:user) }
   end
 end

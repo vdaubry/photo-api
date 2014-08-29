@@ -9,6 +9,7 @@ class Post
   field :pages_url, type: Array
   field :banished, type: Boolean
   has_many :images
+  has_many :user_posts
   belongs_to :scrapping
   belongs_to :website
   

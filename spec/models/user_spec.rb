@@ -27,6 +27,17 @@ describe User do
         FactoryGirl.build(:user, :authentication_token => "string").save.should == false 
       }
     end
+
+    context "has user_websites" do
+      it {
+        user = FactoryGirl.create(:user)
+        FactoryGirl.create(:user_website, :user => user)
+        FactoryGirl.create(:user_website, :user => user)
+
+        user.user_websites.count.should == 2
+        User.first.user_websites.count.should == 2
+      }
+    end
   end
 
   describe "assign_authentication_token!" do
@@ -44,6 +55,15 @@ describe User do
         user = FactoryGirl.build(:user)
         user.assign_authentication_token!
         User.find(user.id).authentication_token.should == "azerty2"
+      end
+    end
+  end
+
+
+  describe "user posts relation" do
+    context "2 users have same posts" do
+      it "saves 2 different status for same post" do
+        
       end
     end
   end
