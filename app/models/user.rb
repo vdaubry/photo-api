@@ -35,4 +35,11 @@ class User
     end
     save
   end
+
+  def update_websites
+    user_websites.each do |website|
+      Website.find(website.id)
+      website.update_posts
+    end
+  end
 end
