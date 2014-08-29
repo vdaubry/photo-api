@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :website do |f|
-    f.name "string"
-    f.url "string" 
+  factory :website do
+    name "string"
+    url "string" 
   end
 end
