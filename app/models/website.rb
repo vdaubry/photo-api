@@ -4,7 +4,6 @@ class Website
   has_many :images
   has_many :scrappings
   has_many :posts
-  belongs_to :user_website
 
   field :name, type: String
   field :url, type: String

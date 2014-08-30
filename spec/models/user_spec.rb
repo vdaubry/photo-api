@@ -59,12 +59,37 @@ describe User do
     end
   end
 
+  describe "follow_website" do
+    let(:user) { FactoryGirl.create(:user) }
+    it "adds a user_website to the user" do
+      website = FactoryGirl.create(:website, :name => "foo", :url => "http://www.foo.bar")
+      user.follow_website(website)
 
-  describe "user posts relation" do
-    context "2 users have same posts" do
-      it "saves 2 different status for same post" do
-        
+      user_website = User.find(user.id).user_websites.first
+      user_website.website_id.should == website.id.to_s
+      user_website.name.should == "foo"
+      user_website.url.should == "http://www.foo.bar"
+    end
+
+    context "already following website" do
+      it "ignores website" do
+        website = FactoryGirl.create(:website)
+        uw = FactoryGirl.create(:user_website, :user => user, :website_id => website.id)
+        user.user_websites = [uw]
+
+        user.follow_website(website)
+        user.user_websites.should == [uw]
       end
+    end
+    
+  end
+
+  describe "update_websites" do
+    it "calls update on each post" do
+      user = FactoryGirl.create(:user)
+      user.user_websites = FactoryGirl.create_list(:user_website, 2, :user => user)
+      UserWebsite.any_instance.expects(:update_posts).times(2)
+      user.update_websites
     end
   end
 end

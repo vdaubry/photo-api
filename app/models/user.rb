@@ -38,8 +38,15 @@ class User
 
   def update_websites
     user_websites.each do |website|
-      Website.find(website.id)
       website.update_posts
     end
+  end
+
+  def follow_website(website)
+    return if user_websites.where(:website_id => website.id).first.present?
+
+    uw = UserWebsite.new(:website_id => website.id, :name => website.name, :url => website.url)
+    user_websites.push(uw)
+    uw.update_posts
   end
 end
