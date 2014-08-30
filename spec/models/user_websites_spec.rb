@@ -38,6 +38,13 @@ describe UserWebsite do
       }
     end
 
+    context "duplicate user_websites website_id" do
+      it { 
+        FactoryGirl.build(:user_website, :user => user, :website_id => "5401aeda4d616307e1030000").save.should == true 
+        FactoryGirl.build(:user_website, :user => user, :website_id => "5401aeda4d616307e1030000").save.should == false 
+      }
+    end
+
     context "has embedded posts" do
       it "associates website_posts to user_website" do
         user_website = FactoryGirl.create(:user_website)
@@ -45,6 +52,38 @@ describe UserWebsite do
 
         user_website.website_posts.count.should == 2
         User.first.user_websites.first.website_posts.count.should == 2
+      end
+    end
+  end
+
+  describe "update_posts" do
+    before(:each) do
+      @website = FactoryGirl.create(:website)
+      @website.posts = FactoryGirl.create_list(:post, 2)
+      @user_website = FactoryGirl.create(:user_website, :website_id => @website.id)
+    end
+
+    it "adds website posts" do
+      @user_website.update_posts
+      User.find(@user_website.user.id).user_websites.first.website_posts.count.should == 2
+    end
+
+    it "calls set images on each post" do
+      WebsitePost.any_instance.expects(:update_images).times(2)
+      @user_website.update_posts
+    end
+
+    context "post already added" do
+      it "adds only new post" do
+        website = FactoryGirl.create(:website)
+        post1 = FactoryGirl.create(:post, :website => website)
+        post2 = FactoryGirl.create(:post, :website => website)
+        user_website = FactoryGirl.create(:user_website, :website_id => website.id)
+        user_website.website_posts = [FactoryGirl.create(:website_post, :post_id => post1.id)]
+
+        user_website.update_posts
+
+        user_website.website_posts.map(&:post_id).should == [post1.id.to_s, post2.id.to_s]
       end
     end
   end
