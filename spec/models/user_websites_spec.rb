@@ -58,9 +58,9 @@ describe UserWebsite do
 
   describe "update_posts" do
     before(:each) do
-      website = FactoryGirl.create(:website)
-      website.posts = FactoryGirl.create_list(:post, 2)
-      @user_website = FactoryGirl.create(:user_website, :website_id => website.id)
+      @website = FactoryGirl.create(:website)
+      @website.posts = FactoryGirl.create_list(:post, 2)
+      @user_website = FactoryGirl.create(:user_website, :website_id => @website.id)
     end
 
     it "adds website posts" do
@@ -71,6 +71,20 @@ describe UserWebsite do
     it "calls set images on each post" do
       WebsitePost.any_instance.expects(:update_images).times(2)
       @user_website.update_posts
+    end
+
+    context "post already added" do
+      it "adds only new post" do
+        website = FactoryGirl.create(:website)
+        post1 = FactoryGirl.create(:post, :website => website)
+        post2 = FactoryGirl.create(:post, :website => website)
+        user_website = FactoryGirl.create(:user_website, :website_id => website.id)
+        user_website.website_posts = [FactoryGirl.create(:website_post, :post_id => post1.id)]
+
+        user_website.update_posts
+
+        user_website.website_posts.map(&:post_id).should == [post1.id.to_s, post2.id.to_s]
+      end
     end
   end
 end

@@ -13,7 +13,8 @@ class UserWebsite
   validates_uniqueness_of :url, :scope => :user
 
   def update_posts
-    Website.find(website_id).posts.batch_size(1000).each do |post|
+    posts = Website.find(website_id).posts.not_in(:id => website_posts.map(&:post_id))
+    posts.batch_size(1000).each do |post|
       wp = WebsitePost.new(:post_id => post.id, :name => post.name)
       website_posts.push(wp)
     end
