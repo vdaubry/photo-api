@@ -1,14 +1,9 @@
 development:
-  # Configure available database sessions. (required)
   sessions:
-    # Defines the default session. (required)
     default:
-      # Defines the name of the default database that Mongoid can connect to.
-      # (required).
-      #database: photo_api_developmenturi: <%= ENV['MONGOHQ_URL'] %>
-      # Provides the hosts the default session can connect to. Must be an array
-      # of host:port pairs. (required)
-      uri: <%= ENV['MONGODB_URL'] %>
+      database: photo-visualizer
+      hosts:
+        - localhost:27017
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:

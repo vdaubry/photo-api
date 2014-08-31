@@ -3,14 +3,35 @@ class WebsitePost
   include Mongoid::Timestamps
   embedded_in :user_website
   embeds_many :post_images
+  embeds_many :essais
   
   field :post_id, type: String
   field :name, type: String
 
+  BUFFER_SIZE=150
+  MAX_IMAGES=1000
+
   def update_images
+    puts "total images for post #{Post.find(post_id).images.count}"
+    puts "current images in post : #{post_images.count}"
+
     images = Post.find(post_id).images.not_in(:key => post_images.map(&:key))
-    images.batch_size(1000).each do |image|
-      post_images.push(PostImage.new(:key => image.key))
-    end
+
+    puts "Adding #{images.count} images"
+
+    puts Benchmark.measure {    
+      if images.count>0
+        pi = []
+        images.desc(:scrapped_at).limit(MAX_IMAGES).batch_size(100).each do |image|
+          pi << PostImage.new(:key => image.key)
+          if pi.count >= BUFFER_SIZE
+            puts "flushing buffer at #{DateTime.now}"
+            post_images.push(pi)
+            pi = []
+          end
+        end
+        post_images.push(pi) 
+      end
+    }
   end
 end

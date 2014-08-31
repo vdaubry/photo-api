@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails',                      '~> 4.1.4'
-gem 'mongoid',                    git: 'git://github.com/mongoid/mongoid.git'
+gem 'mongoid',                    '~> 4.0.0'
 gem 'figaro',                     '~> 0.7.0'
 gem 'active_model_serializers',   '~> 0.8.1'
 gem 'kaminari',                   '~> 0.16.1'

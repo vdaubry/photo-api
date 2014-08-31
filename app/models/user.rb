@@ -4,8 +4,8 @@ class User
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  # devise :database_authenticatable, :registerable,
+  #        :recoverable, :rememberable, :trackable, :validatable
 
   ## Database authenticatable
   field :email,              type: String, default: ""
@@ -37,7 +37,10 @@ class User
   end
 
   def update_websites
+    puts "Updating Website #{user_websites.count}"
+
     user_websites.each do |website|
+      puts "Update #{website.name}"
       website.update_posts
     end
   end
