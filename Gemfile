@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails',                      '~> 4.1.4'
+gem 'rails',                      '~> 4.1.5'
 gem 'mongoid',                    '~> 4.0.0'
 gem 'figaro',                     '~> 0.7.0'
-gem 'active_model_serializers',   '~> 0.8.1'
+gem 'active_model_serializers',   '~> 0.9.0'
 gem 'kaminari',                   '~> 0.16.1'
-gem 'newrelic_rpm',               '~> 3.9.1.236'
+gem 'newrelic_rpm',               '~> 3.9.3.241'
 gem 'unicorn',                    '~> 4.8.3'
 gem 'net-sftp',                   '~> 2.1.2'
 gem 'sentry-raven',               '~> 0.9.4'
@@ -16,7 +16,7 @@ gem 'resque-scheduler',           '~> 3.0.0'
 gem 'devise',                     '~> 3.3.0'
   
 group :test do  
-  gem 'coveralls',                '~> 0.7.0', require: false
+  gem 'coveralls',                '~> 0.7.1', require: false
   gem 'mocha',                    '~> 1.1.0'
   gem 'rspec-rails',              '~> 3.0.2'
   gem 'factory_girl_rails',       '~> 4.4.1'

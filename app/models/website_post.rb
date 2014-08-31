@@ -3,7 +3,6 @@ class WebsitePost
   include Mongoid::Timestamps
   embedded_in :user_website
   embeds_many :post_images
-  embeds_many :essais
   
   field :post_id, type: String
   field :name, type: String
