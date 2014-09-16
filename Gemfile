@@ -14,6 +14,7 @@ gem 'resque',                     '~> 1.25.2'
 gem 'resque-web',                 '~> 0.0.6'
 gem 'resque-scheduler',           '~> 3.0.0'
 gem 'devise',                     '~> 3.3.0'
+gem 'unicorn-worker-killer'
   
 group :test do  
   gem 'coveralls',                '~> 0.7.1', require: false

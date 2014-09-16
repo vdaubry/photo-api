@@ -58,7 +58,8 @@ class ImagesController < ApplicationController
   end
 
   def update
-    @image.update_attributes(
+    puts "image = @image"
+    @image.update_attributes!(
       status: Image::TO_KEEP_STATUS,
       updated_at: DateTime.now
     )
