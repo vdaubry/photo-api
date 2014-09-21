@@ -18,6 +18,14 @@ God.watch do |w|
     end
   end
 
+  # restart if memory gets too high
+  w.transition(:up, :restart) do |on|
+    on.condition(:memory_usage) do |c|
+      c.above = 100.megabytes
+      c.times = 2
+    end
+  end
+
   w.transition(:up, :restart) do |on|
       # restart if server is restarted
       on.condition(:file_touched) do |c|
