@@ -25,8 +25,8 @@ PhotoApi::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  FTP_ADRESS = '92.222.1.55'
-  IMAGES_PATH="/home/ftpuser/ftp/images/development/to_sort"
-  THUMBNAILS_PATH="/home/ftpuser/ftp/images/development/to_sort/thumbnails/300"  
-  SAVE_PATH="/home/ftpuser/ftp/backup/Pic/New"
+  #config.time_zone = 'Central Time (US & Canada)'
+
+  #AWS S3 conf
+  S3_BUCKET="photovisualizer-dev"
 end

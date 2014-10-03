@@ -6,13 +6,36 @@ describe ImageSerializer do
     image = FactoryGirl.create(:image, :key => "some_key", :width => 500, :height => 300, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'), :source_url => "www.foo.bar", :hosting_url => "www.bar.foo")
     serializer = ImageSerializer.new image
 
-    expect(serializer.to_json).to eql('{"image":{"id":"506144650ed4c08d84000001","key":"some_key","width":500,"height":300,"source_url":"www.foo.bar","hosting_url":"www.bar.foo"}}')
+    result = JSON.parse(serializer.to_json)["image"]
+    result["id"].should == "506144650ed4c08d84000001"
+    result["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result["width"].should == 500
+    result["height"].should == 300
+    result["source_url"].should == "www.foo.bar"
+    result["hosting_url"].should == "www.bar.foo"
   end
 
   it "serializes an array of images" do
     images = FactoryGirl.build_list(:image, 2, :key => "some_key", :width => 500, :height => 300, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'), :source_url => "www.foo.bar", :hosting_url => "www.bar.foo")
     serializer = ActiveModel::ArraySerializer.new(images, each_serializer: ImageSerializer)
 
-    expect(serializer.to_json).to eql('[{"id":"506144650ed4c08d84000001","key":"some_key","width":500,"height":300,"source_url":"www.foo.bar","hosting_url":"www.bar.foo"},{"id":"506144650ed4c08d84000001","key":"some_key","width":500,"height":300,"source_url":"www.foo.bar","hosting_url":"www.bar.foo"}]')
+    results = JSON.parse(serializer.to_json)
+    results.count.should == 2
+
+    result1 = results.first
+    result1["id"].should == "506144650ed4c08d84000001"
+    result1["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result1["width"].should == 500
+    result1["height"].should == 300
+    result1["source_url"].should == "www.foo.bar"
+    result1["hosting_url"].should == "www.bar.foo"
+
+    result2 = results.second
+    result2["id"].should == "506144650ed4c08d84000001"
+    result2["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result2["width"].should == 500
+    result2["height"].should == 300
+    result2["source_url"].should == "www.foo.bar"
+    result2["hosting_url"].should == "www.bar.foo"
   end
 end

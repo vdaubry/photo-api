@@ -82,8 +82,6 @@ PhotoApi::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  FTP_ADRESS = '92.222.1.55'
-  IMAGES_PATH="/home/ftpuser/ftp/images/production/to_sort"
-  THUMBNAILS_PATH="/home/ftpuser/ftp/images/production/to_sort/thumbnails/300"  
-  SAVE_PATH="/home/ftpuser/ftp/backup/Pic/New"
+  #AWS S3 conf
+  S3_BUCKET="photovisualizer"
 end
