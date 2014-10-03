@@ -1,5 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
+ENV["AWS_ACCESS_KEY"]="AKIAIP7GOBJUZ6FI6JOQ"
+ENV["AWS_SECRET"]="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"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'stub_chain_mocha'

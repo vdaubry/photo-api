@@ -27,9 +27,9 @@ group :development do
     gem 'capistrano-rails',       '~> 1.1.2'
     gem 'capistrano-bundler',     '~> 1.1.3'
     gem 'spring-commands-rspec',  '~> 1.0.2'
+    gem 'dotenv-rails',           '~> 0.11.1'
 end
 
 group :development, :test do
   gem 'byebug',                   '~> 3.5.1'
-  gem 'dotenv-rails',             '~> 0.11.1'
 end
