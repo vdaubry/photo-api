@@ -51,6 +51,8 @@ class ImagesController < ApplicationController
                 @website.images.where(:hosting_url => params[:hosting_url])
               elsif params[:hosting_urls].present?
                 @website.images.where(:hosting_url.in => params[:hosting_urls])
+              elsif params[:status].present?
+                Image.where(:status => params[:status]).page(params[:page]).per(params[:per])
               else
                 []
               end
@@ -58,7 +60,6 @@ class ImagesController < ApplicationController
   end
 
   def update
-    puts "image = @image"
     @image.update_attributes!(
       status: Image::TO_KEEP_STATUS,
       updated_at: DateTime.now
@@ -106,7 +107,7 @@ class ImagesController < ApplicationController
     end
 
     def set_website
-      @website = Website.find(params[:website_id])
+      @website = Website.find(params[:website_id]) if params[:website_id]
     end
 
       # Never trust parameters from the scary internet, only allow the white list through.

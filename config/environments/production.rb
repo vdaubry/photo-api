@@ -84,4 +84,8 @@ PhotoApi::Application.configure do
 
   #AWS S3 conf
   S3_BUCKET="photovisualizer"
+
+  #AWS SQS conf
+  ZIPPER_QUEUE="zipper"
+  DONE_ZIPPER_QUEUE="zipper-done"
 end

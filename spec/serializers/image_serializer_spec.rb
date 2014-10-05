@@ -8,7 +8,8 @@ describe ImageSerializer do
 
     result = JSON.parse(serializer.to_json)["image"]
     result["id"].should == "506144650ed4c08d84000001"
-    result["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result["width"].should == 500
     result["height"].should == 300
     result["source_url"].should == "www.foo.bar"
@@ -24,7 +25,8 @@ describe ImageSerializer do
 
     result1 = results.first
     result1["id"].should == "506144650ed4c08d84000001"
-    result1["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result1["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result1["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result1["width"].should == 500
     result1["height"].should == 300
     result1["source_url"].should == "www.foo.bar"
@@ -32,7 +34,8 @@ describe ImageSerializer do
 
     result2 = results.second
     result2["id"].should == "506144650ed4c08d84000001"
-    result2["url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result2["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
+    result2["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result2["width"].should == 500
     result2["height"].should == 300
     result2["source_url"].should == "www.foo.bar"

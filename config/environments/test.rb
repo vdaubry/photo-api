@@ -36,4 +36,11 @@ PhotoApi::Application.configure do
 
   #AWS S3 conf
   S3_BUCKET="photovisualizer-dev"
+
+  #AWS SQS conf
+  ZIPPER_QUEUE="zipper-dev"
+  DONE_ZIPPER_QUEUE="zipper-done-dev"
+
+  ENV["AWS_ACCESS_KEY_ID"]="foobar"
+  ENV["AWS_SECRET_ACCESS_KEY"]="foobar"
 end

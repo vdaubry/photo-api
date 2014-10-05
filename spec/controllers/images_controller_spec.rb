@@ -126,6 +126,19 @@ describe ImagesController do
       images = JSON.parse(response.body)["images"]
       images.count.should == 0
     end
+
+    it "returns images by status" do
+      img1 = FactoryGirl.create(:image, :status => Image::TO_SORT_STATUS)
+      img2 = FactoryGirl.create(:image, :status => Image::TO_KEEP_STATUS)
+      img3 = FactoryGirl.create(:image, :status => Image::TO_KEEP_STATUS)
+      
+      get 'search', :format => :json, :status => Image::TO_KEEP_STATUS, :page => 1
+
+      images = JSON.parse(response.body)["images"]
+      images.count.should == 2
+      images[0]["id"].should == img2.id.to_s
+      images[1]["id"].should == img3.id.to_s
+    end
   end
 
   describe "PUT update" do

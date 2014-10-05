@@ -15,6 +15,7 @@ PhotoApi::Application.routes.draw do
   resources :images, shallow: true do
     collection do 
       put 'transfert'
+      get 'search'
     end
   end
 

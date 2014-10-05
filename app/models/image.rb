@@ -1,6 +1,8 @@
 require 'open-uri'
 
 class Image
+  extend Image::RemoteFile
+
   TO_KEEP_STATUS="TO_KEEP_STATUS"
   TO_SORT_STATUS="TO_SORT_STATUS"
   TO_DELETE_STATUS="TO_DELETE_STATUS"
@@ -48,26 +50,12 @@ class Image
 
   end
 
-  # def self.transfert
-  #   raise "Cannot sort images when calinours safety is on !!" if Image.first.key == "calinours.jpg"
-
-  #   ftp = Facades::Ftp.new
-
-  #   Rails.logger.info "Deleting #{Image.where(:status => Image::TO_DELETE_STATUS).count} images"
-  #   keys = Image.where(:status => Image::TO_DELETE_STATUS).map(&:key)
-  #   ftp.delete_files(keys)
-    
-
-  #   Rails.logger.info "Saving #{Image.where(:status => Image::TO_KEEP_STATUS).count} images"
-  #   keys = Image.where(:status => Image::TO_KEEP_STATUS).map(&:key)
-  #   ftp.move_files_to_keep(keys)
-
-  #   Image.where(:status => Image::TO_KEEP_STATUS).update_all(:status => Image::KEPT_STATUS)
-  #   Image.where(:status => Image::TO_DELETE_STATUS).update_all(:status => Image::DELETED_STATUS)
-  # end
-
   def thumbnail_url
-    Facades::S3.new.thumbnail_url(key, THUMBS_FORMAT).to_s
+    Facades::S3.new.url(Image.thumbnail_path(key, THUMBS_FORMAT)).to_s
+  end
+
+  def fullsize_url
+    Facades::S3.new.url(Image.image_path(key)).to_s
   end
 
   private
