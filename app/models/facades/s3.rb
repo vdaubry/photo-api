@@ -2,14 +2,14 @@ require 'aws-sdk'
 
 module Facades
   class S3
-    def initialize
+    def initialize(bucket)
       AWS.config({
       :access_key_id => ENV["AWS_ACCESS_KEY_ID"],
       :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"]
       })
 
       s3 = AWS::S3.new 
-      @bucket = s3.buckets[S3_BUCKET]
+      @bucket = s3.buckets[bucket]
     end
 
     def url(key)

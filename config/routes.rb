@@ -19,6 +19,8 @@ PhotoApi::Application.routes.draw do
     end
   end
 
+  resources :zipfiles, :only => [:index]
+
   resources :websites do
     collection do
       get 'search'

@@ -35,7 +35,8 @@ PhotoApi::Application.configure do
   config.active_support.deprecation = :stderr
 
   #AWS S3 conf
-  S3_BUCKET="photovisualizer-dev"
+  IMAGE_BUCKET="photovisualizer-dev"
+  ZIP_BUCKET="photozipper-dev"
 
   #AWS SQS conf
   ZIPPER_QUEUE="zipper-dev"

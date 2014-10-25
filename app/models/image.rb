@@ -51,11 +51,11 @@ class Image
   end
 
   def thumbnail_url
-    Facades::S3.new.url(Image.thumbnail_path(key, THUMBS_FORMAT)).to_s
+    Facades::S3.new(IMAGE_BUCKET).url(Image.thumbnail_path(key, THUMBS_FORMAT)).to_s
   end
 
   def fullsize_url
-    Facades::S3.new.url(Image.image_path(key)).to_s
+    Facades::S3.new(IMAGE_BUCKET).url(Image.image_path(key)).to_s
   end
 
   private

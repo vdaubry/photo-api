@@ -83,7 +83,8 @@ PhotoApi::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   #AWS S3 conf
-  S3_BUCKET="photovisualizer"
+  IMAGE_BUCKET="photovisualizer"
+  ZIP_BUCKET="photozipper"
 
   #AWS SQS conf
   ZIPPER_QUEUE="zipper"

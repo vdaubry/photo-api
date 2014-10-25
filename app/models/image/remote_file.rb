@@ -23,10 +23,10 @@ module Image::RemoteFile
   def listen_for_done_zip
     Facades::SQS.new(DONE_ZIPPER_QUEUE).poll do |msg|
       key = JSON.parse(msg)["zipkey"]
-      puts "Zip file created : #{key}"
       Zipfile.create(:key => key)
       Image.to_keep.update_all(:status => "KEPT_STATUS")
       Image.to_delete.update_all(:status => "DELETED_STATUS")
+      puts "Zip file created : #{key}"
     end
   end
 end

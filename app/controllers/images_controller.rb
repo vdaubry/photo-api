@@ -92,10 +92,9 @@ class ImagesController < ApplicationController
   end 
 
   def transfert
-    Resque.enqueue(ImageTransfert)
+    Image.create_zip
     render :json => {:status => :ok}
   end
-
 
   private
     def set_image

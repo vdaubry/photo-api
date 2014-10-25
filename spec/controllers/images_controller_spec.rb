@@ -232,7 +232,7 @@ describe ImagesController do
 
   describe "PUT transfert" do
     it "transfers image" do
-      Image.expects(:transfert)
+      Image.expects(:create_zip).once
       put 'transfert', :format => :json
       response.status.should == 200
     end
