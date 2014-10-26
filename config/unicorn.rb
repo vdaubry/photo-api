@@ -2,7 +2,7 @@
 env = ENV['RACK_ENV'] || 'production'
 
 # config/unicorn.rb
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 4)
+worker_processes Integer(ENV["WEB_CONCURRENCY"] || 2)
 timeout 30
 preload_app true
 

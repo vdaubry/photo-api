@@ -1,6 +1,6 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
 rails_root  = ENV['RAILS_ROOT'] || "/srv/www/photo-api/current"
-num_workers = 1
+num_workers = 0
  
 num_workers.times do |num|
   God.watch do |w|
