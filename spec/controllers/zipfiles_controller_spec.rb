@@ -13,5 +13,17 @@ describe ZipfilesController do
       resp[1]["url"].scan(/(https:\/\/photozipper-dev.s3.amazonaws.com\/bar.zip\?AWSAccessKeyId=foobar&Expires=.*&Signature=.*)/).first.should_not == nil
       resp[1]["key"].should == "bar.zip"
     end
+
+    it "destroys zipfles older than 1 day" do
+      z1 = FactoryGirl.create(:zipfile, :key => "z1.zip", :created_at => 23.hours.ago)
+      z2 = FactoryGirl.create(:zipfile, :key => "z2.zip", :created_at => 25.hours.ago)
+
+      get :index, :format => :json
+      resp = JSON.parse(response.body)["zipfiles"]
+      resp.count.should == 1
+      resp[0]["key"].should == "z1.zip"
+
+      Zipfile.all.should == [z1]
+    end
   end
 end
