@@ -7,7 +7,7 @@ class WebsitePost
   field :post_id, type: String
   field :name, type: String
 
-  BUFFER_SIZE=150
+  BUFFER_SIZE=500
   MAX_IMAGES=1000
 
   def update_images
@@ -32,5 +32,7 @@ class WebsitePost
         post_images.push(pi) 
       end
     }
+
+    puts "Total images in post #{images.count}"
   end
 end

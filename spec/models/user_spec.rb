@@ -81,7 +81,6 @@ describe User do
         user.user_websites.should == [uw]
       end
     end
-    
   end
 
   describe "update_websites" do

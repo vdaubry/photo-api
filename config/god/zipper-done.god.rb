@@ -6,8 +6,10 @@ God.watch do |w|
   w.group         = 'zipper'
   w.interval      = 30.seconds
   w.dir           = rails_root
-  w.env           = { 'RAILS_ENV' => rails_env }
+  w.env           = { 'RAILS_ENV' => rails_env, 'AWS_ACCESS_KEY_ID' => AWS_ACCESS_KEY_ID, 'AWS_SECRET_ACCESS_KEY' => AWS_SECRET_ACCESS_KEY}
   w.start         = "bundle exec rake zip:listen"
+  w.uid           = 'deploy'
+  w.gid           = 'deploy'
   w.start_grace   = 10.seconds
   w.log           = File.join(rails_root, 'log', 'zipper-done.log')
  
