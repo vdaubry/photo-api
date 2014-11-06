@@ -7,6 +7,7 @@ class Post
   field :name, type: String
   field :status, type: String, default: Post::TO_SORT_STATUS
   field :pages_url, type: Array
+  #TODO: a supprimer (déplacé dans website_post)
   field :banished, type: Boolean
   has_many :images
   belongs_to :scrapping
@@ -35,7 +36,7 @@ class Post
     errors.add :name, 'must be unique' if scrapping.present? && Post.where(:scrapping => scrapping, :name => name).size > 0
   end
 
-  #TODO : remplacer par une méthode banish => set tle status du post à sorted, toutes les images à to_delete et banished = true
+  #TODO : déplacer dans website_post + remplacer par une méthode banish => set le status du post à sorted, toutes les images à to_delete et banished = true
   def delete_banished_images
     self.images.update_all(:status => Image::TO_DELETE_STATUS) if self.banished_changed? && self.banished
   end

@@ -1,26 +1,20 @@
-#TODO: A supprimer
-
 require 'rails_helper'
 
-describe ImageSerializer do
+describe PostImageSerializer do
 
   it "serializes an image" do
-    image = FactoryGirl.create(:image, :key => "some_key", :width => 500, :height => 300, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'), :source_url => "www.foo.bar", :hosting_url => "www.bar.foo")
-    serializer = ImageSerializer.new image
+    image = FactoryGirl.create(:post_image, :key => "some_key", :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
+    serializer = PostImageSerializer.new image
 
-    result = JSON.parse(serializer.to_json)["image"]
+    result = JSON.parse(serializer.to_json)["post_image"]
     result["id"].should == "506144650ed4c08d84000001"
     result["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
     result["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
-    result["width"].should == 500
-    result["height"].should == 300
-    result["source_url"].should == "www.foo.bar"
-    result["hosting_url"].should == "www.bar.foo"
   end
 
   it "serializes an array of images" do
-    images = FactoryGirl.build_list(:image, 2, :key => "some_key", :width => 500, :height => 300, :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'), :source_url => "www.foo.bar", :hosting_url => "www.bar.foo")
-    serializer = ActiveModel::ArraySerializer.new(images, each_serializer: ImageSerializer)
+    images = FactoryGirl.build_list(:post_image, 2, :key => "some_key", :id => BSON::ObjectId.from_string('506144650ed4c08d84000001'))
+    serializer = ActiveModel::ArraySerializer.new(images, each_serializer: PostImageSerializer)
 
     results = JSON.parse(serializer.to_json)
     results.count.should == 2
@@ -29,18 +23,10 @@ describe ImageSerializer do
     result1["id"].should == "506144650ed4c08d84000001"
     result1["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
     result1["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
-    result1["width"].should == 500
-    result1["height"].should == 300
-    result1["source_url"].should == "www.foo.bar"
-    result1["hosting_url"].should == "www.bar.foo"
 
     result2 = results.second
     result2["id"].should == "506144650ed4c08d84000001"
     result2["thumbnail_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/thumbnail/300x300/0/0/0/some_key?AWSAccessKeyId").should == true
     result2["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
-    result2["width"].should == 500
-    result2["height"].should == 300
-    result2["source_url"].should == "www.foo.bar"
-    result2["hosting_url"].should == "www.bar.foo"
   end
 end

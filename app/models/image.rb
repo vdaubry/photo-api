@@ -3,12 +3,14 @@ require 'open-uri'
 class Image
   extend Image::RemoteFile
 
+  #TODO : A supprimer
   TO_KEEP_STATUS="TO_KEEP_STATUS"
   TO_SORT_STATUS="TO_SORT_STATUS"
   TO_DELETE_STATUS="TO_DELETE_STATUS"
   DELETED_STATUS="DELETED_STATUS"
   KEPT_STATUS="KEPT_STATUS"
 
+  #TODO : A supprimer
   THUMBS_FORMAT="300x300"
 
   include Mongoid::Document
@@ -50,10 +52,12 @@ class Image
 
   end
 
+  #TODO : A supprimer
   def thumbnail_url
     Facades::S3.new(IMAGE_BUCKET).url(Image.thumbnail_path(key, THUMBS_FORMAT)).to_s
   end
 
+  #TODO : A supprimer
   def fullsize_url
     Facades::S3.new(IMAGE_BUCKET).url(Image.image_path(key)).to_s
   end

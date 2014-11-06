@@ -2,6 +2,7 @@ class UserWebsite
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  #TODO : pourquoi déclarer une string plutot que de déclarer has_one website ?
   field :website_id, type: String
   field :name, type: String
   field :url, type: String
@@ -32,5 +33,9 @@ class UserWebsite
     website_posts.each do |post|
       post.update_images
     end
+  end
+
+  def latest_post_id
+    self.website_posts.where(:status => WebsitePost::TO_SORT_STATUS, :banished.ne => true).order_by(:updated_at => :asc).first.id.to_s rescue nil
   end
 end

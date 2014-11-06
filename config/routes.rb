@@ -19,6 +19,13 @@ PhotoApi::Application.routes.draw do
     end
   end
 
+  resources :user_websites, :only => [:index] do
+    resources :website_posts do
+      resources :post_images do
+      end
+    end
+  end
+
   resources :zipfiles, :only => [:index]
 
   resources :websites do

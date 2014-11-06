@@ -1,3 +1,5 @@
+#TODO: a supprimer
+
 class ScrappingSerializer < ActiveModel::Serializer
   attributes :id, :date, :duration, :image_count, :success
 

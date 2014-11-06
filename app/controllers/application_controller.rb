@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token
   before_filter :cors_preflight_check
   after_filter :cors_set_access_control_headers
+
+  rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
+  rescue_from Exceptions::UserNotFoundError, :with => :render_401
   
   # If this is a preflight OPTIONS request, then short-circuit the
   # request, return only the necessary headers and return an empty
@@ -42,5 +45,15 @@ class ApplicationController < ActionController::Base
 
   def render_404
     render :status => 404, :text => 'not found'
+  end
+
+  def render_401
+    render :status => 401, :text => 'Could not authenticate user'
+  end
+
+  def current_api_user
+    user = User.where(:authentication_token => params[:token]).first
+    raise Exceptions::UserNotFoundError if user.nil?
+    user
   end
 end

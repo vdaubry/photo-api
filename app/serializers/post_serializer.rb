@@ -1,3 +1,5 @@
+#TODO: a supprimer
+
 class PostSerializer < ActiveModel::Serializer
   attributes :id, :name, :status, :banished
 

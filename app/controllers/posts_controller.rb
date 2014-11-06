@@ -3,9 +3,6 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:destroy, :update, :banish]
   respond_to :json
 
-  rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
-
-
   def destroy
     @post.images.where(:status => Image::TO_SORT_STATUS).update_all(:status => Image::TO_DELETE_STATUS)
     @post.update_attributes(:status => Post::SORTED_STATUS)

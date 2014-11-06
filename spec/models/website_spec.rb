@@ -25,6 +25,7 @@ describe Website do
 		end
 	end
 
+	#TODO: a supprimer (déplacé dans user_website)
 	describe "latest_post_id" do
 		it "returns website post with status to sort ordered by updated_at ASC" do
 			post1 = FactoryGirl.create(:post, :website => website, :status => Post::SORTED_STATUS)

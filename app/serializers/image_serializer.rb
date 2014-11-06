@@ -1,3 +1,5 @@
+#TODO: A supprimer
+
 class ImageSerializer < ActiveModel::Serializer
   attributes :id, :fullsize_url, :thumbnail_url, :width, :height, :source_url, :hosting_url
 

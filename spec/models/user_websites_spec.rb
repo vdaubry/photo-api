@@ -117,7 +117,21 @@ describe UserWebsite do
     end
     
 
+  describe "latest_post_id" do
+    it "returns website post with status to sort ordered by updated_at ASC" do
+      post1 = FactoryGirl.create(:website_post, :user_website => @user_website, :status => WebsitePost::SORTED_STATUS)
+      post2 = FactoryGirl.create(:website_post, :user_website => @user_website, :status => WebsitePost::TO_SORT_STATUS, :updated_at => Date.parse("02/01/2010"), :created_at => Date.parse("02/01/2010"), :banished => false)
+      post3 = FactoryGirl.create(:website_post, :user_website => @user_website, :status => WebsitePost::TO_SORT_STATUS, :updated_at => Date.parse("03/01/2010"), :created_at => Date.parse("03/01/2010"), :banished => false)
+      post5 = FactoryGirl.create(:website_post, :user_website => @user_website, :status => WebsitePost::TO_SORT_STATUS, :updated_at => Date.parse("01/01/2010"), :created_at => Date.parse("01/01/2010"), :banished => true)
+      
+      @user_website.latest_post_id.should == post2.id.to_s
+    end
 
+    it "returns website post when none is banished" do
+      post1 = FactoryGirl.create(:website_post, :user_website => @user_website, :status => Post::TO_SORT_STATUS, :banished => nil)
+      @user_website.latest_post_id.should == post1.id.to_s
+    end
+  end
 
     
   end

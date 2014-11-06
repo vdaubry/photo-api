@@ -1,11 +1,18 @@
 class WebsitePost
   include Mongoid::Document
   include Mongoid::Timestamps
+  
+  TO_SORT_STATUS="TO_SORT_STATUS"
+  SORTED_STATUS="SORTED_STATUS"
+
   embedded_in :user_website
   embeds_many :post_images
   
+  #Pourquoi on stocke l'id plutôt que has_one posts ?
   field :post_id, type: String
   field :name, type: String
+  field :status, type: String, default: TO_SORT_STATUS
+  field :banished, type: Boolean
 
   BUFFER_SIZE=500
   MAX_IMAGES=1000

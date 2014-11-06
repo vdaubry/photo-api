@@ -4,8 +4,6 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:update, :destroy]
   respond_to :json
 
-  rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
-
   def index
     @to_sort_count = @website.images.where(:status => Image::TO_SORT_STATUS).count
     @to_keep_count = @website.images.where(:status => Image::TO_KEEP_STATUS).count

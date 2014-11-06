@@ -1,3 +1,5 @@
+#TODO: a supprimer
+
 require 'rails_helper'
 
 describe ScrappingSerializer do
