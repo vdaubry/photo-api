@@ -2,7 +2,6 @@ class Website
   include Mongoid::Document
   include Mongoid::Timestamps
   has_many :images
-  has_many :scrappings
   has_many :posts
 
   field :name, type: String

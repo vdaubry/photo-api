@@ -12,7 +12,6 @@ class Post
   belongs_to :scrapping
   belongs_to :website
   
-  validate :unique_name_per_scrapping, :on => :create
   validates_inclusion_of :status, in: [ TO_SORT_STATUS, SORTED_STATUS ]
 
   after_save :delete_banished_images
@@ -30,10 +29,6 @@ class Post
   end
 
   private 
-
-  def unique_name_per_scrapping
-    errors.add :name, 'must be unique' if scrapping.present? && Post.where(:scrapping => scrapping, :name => name).size > 0
-  end
 
   #TODO : remplacer par une méthode banish => set tle status du post à sorted, toutes les images à to_delete et banished = true
   def delete_banished_images

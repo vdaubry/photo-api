@@ -1,6 +1,5 @@
 class User
   include Mongoid::Document
-  has_many :user_websites
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -25,6 +24,8 @@ class User
   field :last_sign_in_at,    type: Time
   field :current_sign_in_ip, type: String
   field :last_sign_in_ip,    type: String
+  
+  embeds_many :websites
 
   validates_uniqueness_of :authentication_token
 
@@ -34,22 +35,5 @@ class User
       break if User.where(:authentication_token => authentication_token).count == 0
     end
     save
-  end
-
-  def update_websites
-    puts "Updating Website #{user_websites.count}"
-
-    user_websites.each do |website|
-      puts "Update #{website.name}"
-      website.update_posts
-    end
-  end
-
-  def follow_website(website)
-    return if user_websites.where(:website_id => website.id).first.present?
-
-    uw = UserWebsite.new(:website_id => website.id, :name => website.name, :url => website.url)
-    user_websites.push(uw)
-    uw.update_posts
   end
 end
