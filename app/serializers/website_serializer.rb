@@ -9,8 +9,8 @@ class WebsiteSerializer < ActiveModel::Serializer
     object.images.where(:status => Image::TO_SORT_STATUS).count
   end
 
-  # def latest_post_id
-  #   object.latest_post_id
-  # end
+  def latest_post_id
+    object.latest_post_id
+  end
 
 end

@@ -2,11 +2,11 @@ development:
   sessions:
     default:
       #uncomment for remote db
-      uri: <%= ENV['MONGODB_URL'] %>
+      #uri: <%= ENV['MONGODB_URL'] %>
       #uncomment for local db
-      # database: photo-visualizer
-      # hosts:
-      #   - localhost:27017
+      database: photo-visualizer
+      hosts:
+        - localhost:27017
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
