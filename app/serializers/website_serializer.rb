@@ -12,5 +12,4 @@ class WebsiteSerializer < ActiveModel::Serializer
   def latest_post_id
     object.latest_post_id
   end
-
 end

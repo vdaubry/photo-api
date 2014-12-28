@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails',                      '~> 4.1.7'
+gem 'rack-cors',                  '~> 0.3.0'
 gem 'mongoid',                    '~> 4.0.0'
 gem 'figaro',                     '~> 1.0.0'
 gem 'active_model_serializers',   '~> 0.9.0'

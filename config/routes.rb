@@ -3,14 +3,10 @@ require 'resque/server'
 PhotoApi::Application.routes.draw do
   get 'ping', to: 'application#ping'
 
-  #For CORS support
-  match "/*path" => "application#options", via: [:options]
-
-  resources :users do
-    collection do
-      post 'sign_in'
-    end
-  end
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+  }
 
   resources :images, shallow: true do
     collection do 

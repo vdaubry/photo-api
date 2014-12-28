@@ -8,7 +8,7 @@ class Website
   field :url, type: String
 
   def latest_post_id
-    self.posts.where(:status => Post::TO_SORT_STATUS, :banished.ne => true).order_by(:updated_at => :asc).first.id.to_s rescue nil
+    self.posts.where(:status => Post::TO_SORT_STATUS).order_by(:updated_at => :asc).first.id.to_s rescue nil
   end
 
 end

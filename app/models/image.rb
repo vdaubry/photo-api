@@ -16,6 +16,9 @@ class Image
   belongs_to :website, index: true
   belongs_to :post, index: true
   index({ website_id: 1, status: 1 })
+  index({ image_hash: 1}, { unique: true, drop_dups: true })
+  index({ source_url: 1}, { unique: true, drop_dups: true })
+  index({ key: 1}, { unique: true, drop_dups: true })
   
   delegate :update_post_status, :to => :post
 

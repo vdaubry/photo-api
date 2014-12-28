@@ -11,6 +11,7 @@ class Post
   has_many :images
   belongs_to :scrapping
   belongs_to :website
+  index({website_id: 1, status: 1, updated_at: 1})
   
   validates_inclusion_of :status, in: [ TO_SORT_STATUS, SORTED_STATUS ]
 
