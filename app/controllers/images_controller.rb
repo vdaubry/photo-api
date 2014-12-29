@@ -9,7 +9,13 @@ class ImagesController < ApplicationController
   def index
     params[:page] ||= 1
     params[:per] ||= 50
-    respond_with @post.images.asc(:scrapped_at).page(params[:page]).per(params[:per])
+    if params[:user_id]
+      image_ids = current_user.user_images.where(:post => @post).map(&:image_id)
+      images = Image.where(:id.in => image_ids)
+    else
+      images = @post.images
+    end
+    respond_with images.asc(:scrapped_at).page(params[:page]).per(params[:per])
   end
 
   # def index

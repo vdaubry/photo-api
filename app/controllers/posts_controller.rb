@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_website, only: [:index]
+  before_action :set_website, only: [:index, :show]
   #before_action :set_post, only: [:index]
   respond_to :json
 
@@ -9,7 +9,17 @@ class PostsController < ApplicationController
   def index
     params[:page] ||= 1
     params[:per] ||= 50
-    respond_with @website.posts
+    respond_with @website.posts.desc(:updated_at)
+  end
+  
+  def show
+    if params[:id] == "latest"
+      post = @website.posts.desc(:updated_at).first
+    else
+      post = Post.find(params[:id])
+    end
+    
+    respond_with post, :root => "posts"
   end
 
   # def destroy

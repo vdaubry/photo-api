@@ -25,7 +25,8 @@ class User
   field :current_sign_in_ip, type: String
   field :last_sign_in_ip,    type: String
   
-  has_many :websites
+  has_and_belongs_to_many :websites, inverse_of: nil, index: true
+  has_many :user_images
   
   validates_uniqueness_of :authentication_token
   

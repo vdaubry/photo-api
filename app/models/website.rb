@@ -1,14 +1,15 @@
 class Website
   include Mongoid::Document
   include Mongoid::Timestamps
-  belongs_to :users
   has_many :images
   has_many :posts
+  has_one :user_image
 
   field :name, type: String
   field :url, type: String
 
   index({name: 1}, :unique => true)
+  index({url: 1}, :unique => true)
   
   validates_uniqueness_of :name, :url
 

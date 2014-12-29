@@ -7,6 +7,7 @@ class Post
   #field :pages_url, type: Array
   #field :banished, type: Boolean
   has_many :images
+  has_one :user_image
   belongs_to :website
   
   index({website_id: 1, status: 1, updated_at: 1})

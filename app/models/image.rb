@@ -15,6 +15,7 @@ class Image
   include Mongoid::Timestamps
   belongs_to :website, index: true
   belongs_to :post, index: true
+  has_one :user_image
   index({ website_id: 1, status: 1 })
   index({ image_hash: 1}, { unique: true, drop_dups: true })
   index({ source_url: 1}, { unique: true, drop_dups: true })

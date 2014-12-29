@@ -17,6 +17,20 @@ describe PostsController do
     end
   end
   
+  
+  describe "get show" do
+    context "get latest post" do
+      it "returns latest post ordered by created at" do
+        post1 = FactoryGirl.create(:post, :website => website, :updated_at => Date.parse("01/01/2010"))
+        post2 = FactoryGirl.create(:post, :website => website, :updated_at => Date.parse("01/01/2011"))
+          
+        get 'show', :website_id => website.id, :id => "latest", :format => :json
+        
+        JSON.parse(response.body)["posts"]["id"].should == post2.id.to_s
+      end
+    end
+  end
+  
   # let(:to_sort_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
   # let(:next_post) { FactoryGirl.create(:post, :status => Post::TO_SORT_STATUS, :website => website) }
 
