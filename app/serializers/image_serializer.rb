@@ -1,5 +1,5 @@
 class ImageSerializer < ActiveModel::Serializer
-  attributes :id, :fullsize_url, :thumbnail_url, :width, :height, :source_url, :hosting_url
+  attributes :id, :fullsize_url, :thumbnail_url, :width, :height
 
   def id
     object.id.to_s

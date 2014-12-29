@@ -7,8 +7,22 @@ PhotoApi::Application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations',
   }
+  
+  resources :users, :only => :none do
+    resources :websites, :only => [:index, :create] do
+    end
+  end
+  
+  
+  
+  
+  #####
+  #
+  # A RELIRE 
+  #
+  #####
 
-  resources :images, shallow: true do
+  resources :images do
     collection do 
       put 'transfert'
       get 'search'
@@ -22,7 +36,7 @@ PhotoApi::Application.routes.draw do
       get 'search'
     end
 
-    resources :posts, :only => [:create, :destroy, :update] do
+    resources :posts, :only => [:create, :destroy, :update, :index] do
       member do
         put 'banish'
       end
@@ -31,14 +45,12 @@ PhotoApi::Application.routes.draw do
         get 'search'
       end
 
-      resources :images do
+      resources :images, shallow: true do
         collection do
           delete  'destroy_all'
         end
       end
     end
-
-    resources :scrappings, :only => [:create, :update]
 
     resources :images, :only => :index do
       collection do 

@@ -1,6 +1,9 @@
 require "rails_helper"
 
 describe User do
+  
+  let(:user) { FactoryGirl.create(:user) }
+  
   describe "save" do
     context "valid" do
       it  { FactoryGirl.build(:user).save.should == true }
@@ -28,15 +31,21 @@ describe User do
       }
     end
 
-    context "has user_websites" do
+    context "has websites" do
       it {
-        user = FactoryGirl.create(:user)
-        FactoryGirl.create(:user_website, :user => user)
-        FactoryGirl.create(:user_website, :user => user)
+        user.websites = FactoryGirl.create_list(:website, 2)
+        user.save!
 
-        user.user_websites.count.should == 2
-        User.first.user_websites.count.should == 2
+        User.first.websites.count.should == 2
       }
+      
+      it "forbids duplicates websites" do
+        website = FactoryGirl.create(:website)
+        user.websites = [website]
+        user.websites << website
+        user.save
+        user.reload.websites.count.should == 1
+      end
     end
   end
 
@@ -56,39 +65,6 @@ describe User do
         user.assign_authentication_token!
         User.find(user.id).authentication_token.should == "azerty2"
       end
-    end
-  end
-
-  describe "follow_website" do
-    let(:user) { FactoryGirl.create(:user) }
-    it "adds a user_website to the user" do
-      website = FactoryGirl.create(:website, :name => "foo", :url => "http://www.foo.bar")
-      user.follow_website(website)
-
-      user_website = User.find(user.id).user_websites.first
-      user_website.website_id.should == website.id.to_s
-      user_website.name.should == "foo"
-      user_website.url.should == "http://www.foo.bar"
-    end
-
-    context "already following website" do
-      it "ignores website" do
-        website = FactoryGirl.create(:website)
-        uw = FactoryGirl.create(:user_website, :user => user, :website_id => website.id)
-        user.user_websites = [uw]
-
-        user.follow_website(website)
-        user.user_websites.should == [uw]
-      end
-    end
-  end
-
-  describe "update_websites" do
-    it "calls update on each post" do
-      user = FactoryGirl.create(:user)
-      user.user_websites = FactoryGirl.create_list(:user_website, 2, :user => user)
-      UserWebsite.any_instance.expects(:update_posts).times(2)
-      user.update_websites
     end
   end
 end

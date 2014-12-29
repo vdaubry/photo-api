@@ -25,10 +25,16 @@ class User
   field :current_sign_in_ip, type: String
   field :last_sign_in_ip,    type: String
   
-  embeds_many :websites
-
+  has_many :websites
+  
   validates_uniqueness_of :authentication_token
+  
+  validate do
+    self.errors.add :websites, 'must be unique' if websites.map(&:url).uniq.count != websites.count
+  end
 
+  index({authentication_token: 1}, :unique => true)
+  
   def assign_authentication_token!
     loop do
       self.authentication_token = SecureRandom.urlsafe_base64(30).tr('lIO0', 'sxyz')

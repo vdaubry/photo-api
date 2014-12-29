@@ -1,6 +1,8 @@
 require "rails_helper"
 
 describe ZipfilesController do
+  login_user
+  
   describe "GET index" do
     it "returns all zipfiles" do
       FactoryGirl.create(:zipfile, :key => "foo.zip")

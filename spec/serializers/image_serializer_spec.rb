@@ -12,8 +12,6 @@ describe ImageSerializer do
     result["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result["width"].should == 500
     result["height"].should == 300
-    result["source_url"].should == "www.foo.bar"
-    result["hosting_url"].should == "www.bar.foo"
   end
 
   it "serializes an array of images" do
@@ -29,8 +27,6 @@ describe ImageSerializer do
     result1["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result1["width"].should == 500
     result1["height"].should == 300
-    result1["source_url"].should == "www.foo.bar"
-    result1["hosting_url"].should == "www.bar.foo"
 
     result2 = results.second
     result2["id"].should == "506144650ed4c08d84000001"
@@ -38,7 +34,5 @@ describe ImageSerializer do
     result2["fullsize_url"].include?("https://photovisualizer-dev.s3.amazonaws.com/image/0/0/0/some_key?AWSAccessKeyId").should == true
     result2["width"].should == 500
     result2["height"].should == 300
-    result2["source_url"].should == "www.foo.bar"
-    result2["hosting_url"].should == "www.bar.foo"
   end
 end

@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
    private
   
   def authenticate_user_from_token!
-    puts "try "
     if params[:authentication_token]
       user = User.where(:authentication_token => params[:authentication_token]).first
       
