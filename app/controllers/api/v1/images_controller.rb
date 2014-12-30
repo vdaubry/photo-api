@@ -1,4 +1,4 @@
-class Api::V1::ImagesController < Api::V1::ApplicationController
+class Api::V1::ImagesController < Api::V1::BaseController
   #before_action :set_website, only: [:index, :update, :destroy, :destroy_all, :search, :create]
   before_action :set_post, only: [:index]
   #before_action :set_image, only: [:update, :destroy]

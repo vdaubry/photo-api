@@ -1,4 +1,4 @@
-class Api::V1::Users::ApplicationController < Api::V1::ApplicationController
+class Api::V1::Users::BaseController < Api::V1::BaseController
   before_filter :authenticate_user_from_token!
   
   private

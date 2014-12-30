@@ -31,7 +31,7 @@ PhotoApi::Application.routes.draw do
         resources :images, :only => [:index]
       end
       
-      get 'ping', to: 'application#ping'
+      get 'ping', to: 'base#ping'
     end
   end
 

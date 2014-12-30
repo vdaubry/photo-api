@@ -1,4 +1,4 @@
-class Api::V1::PostsController < Api::V1::ApplicationController
+class Api::V1::PostsController < Api::V1::BaseController
   before_action :set_website, only: [:index, :show]
   before_action :set_post, only: [:show]
   respond_to :json

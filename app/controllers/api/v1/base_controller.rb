@@ -1,4 +1,4 @@
-class Api::V1::ApplicationController < ApplicationController
+class Api::V1::BaseController < ApplicationController
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   before_filter :authenticate_user_from_token!
