@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ApplicationController do
+describe Api::V1::ApplicationController do
   describe "GET ping" do
 
     context "finds website" do

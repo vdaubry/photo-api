@@ -1,4 +1,4 @@
-class ZipfilesController < ApplicationController
+class Api::V1::ZipfilesController < Api::V1::ApplicationController
   respond_to :json
 
   def index

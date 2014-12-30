@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Users::RegistrationsController do
+describe Api::V1::Users::RegistrationsController do
   
   describe "create" do
     before(:each) do

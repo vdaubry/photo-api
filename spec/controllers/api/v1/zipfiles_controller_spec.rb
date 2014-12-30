@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe ZipfilesController do
+describe Api::V1::ZipfilesController do
   # login_user
   
   # describe "GET index" do

@@ -1,4 +1,4 @@
-class WebsitesController < ApplicationController
+class Api::V1::WebsitesController < Api::V1::ApplicationController
   respond_to :json
   
   def index

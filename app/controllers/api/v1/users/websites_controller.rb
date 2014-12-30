@@ -1,4 +1,4 @@
-class Users::WebsitesController < Users::ApplicationController
+class Api::V1::Users::WebsitesController < Api::V1::Users::ApplicationController
   before_filter :authenticate_user!
   respond_to :json
   

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe WebsitesController do
+describe Api::V1::WebsitesController do
   
   before :each do
     sign_out :user

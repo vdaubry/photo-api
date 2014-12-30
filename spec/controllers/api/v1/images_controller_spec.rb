@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ImagesController do
+describe Api::V1::ImagesController do
   
   before :each do
     sign_out :user

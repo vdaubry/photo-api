@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Users::WebsitesController do
+describe Api::V1::Users::WebsitesController do
   login_user
   
   describe "GET index" do

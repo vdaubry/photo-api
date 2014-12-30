@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Users::ImagesController do
+describe Api::V1::Users::ImagesController do
   login_user
   
   let(:post) {FactoryGirl.create(:post)}

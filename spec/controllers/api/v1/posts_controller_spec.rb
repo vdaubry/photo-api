@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe PostsController do
+describe Api::V1::PostsController do
   login_user
   
   let(:website) { FactoryGirl.create(:website) }

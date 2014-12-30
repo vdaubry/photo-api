@@ -1,33 +1,40 @@
 require 'resque/server'
 
 PhotoApi::Application.routes.draw do
-  get 'ping', to: 'application#ping'
-
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations',
-  }
-  
-  #User routes
-  resources :users, :only => :none do
     
-    resources :websites, :only => [:index, :create], :controller => "users/websites"
+  scope '/api/v1' do
+    devise_for :users, controllers: {
+      sessions: 'api/v1/users/sessions',
+      registrations: 'api/v1/users/registrations',
+    }
+  end
   
-    resources :posts, :only => :none do
-      resources :images, :only => [:index], :controller => "users/images"
+  namespace :api do
+    namespace :v1 do
+      #User routes
+      resources :users, :only => :none do
+        
+        resources :websites, :only => [:index, :create], :controller => 'users/websites'
+      
+        resources :posts, :only => :none do
+          resources :images, :only => [:index], :controller => 'users/images'
+        end
+        
+      end
+      
+      #websites routes
+      resources :websites, :only => [:index] do
+        resources :posts, :only => [:index, :show]
+      end
+      
+      resources :posts, :only => :none do
+        resources :images, :only => [:index]
+      end
+      
+      get 'ping', to: 'application#ping'
     end
-    
   end
-  
-  
-  #websites routes
-  resources :websites, :only => [:index] do
-    resources :posts, :only => [:index, :show]
-  end
-  
-  resources :posts, :only => :none do
-    resources :images, :only => [:index]
-  end
+
   
   
 

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Users::SessionsController do
+describe Api::V1::Users::SessionsController do
 
   describe "sign_in" do
     before(:each) do

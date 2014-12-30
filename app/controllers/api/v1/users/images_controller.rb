@@ -1,4 +1,4 @@
-class Users::ImagesController < Users::ApplicationController
+class Api::V1::Users::ImagesController < Api::V1::Users::ApplicationController
   before_filter :authenticate_user!
   before_action :set_post, only: [:index]
   
