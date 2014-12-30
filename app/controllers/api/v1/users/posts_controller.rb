@@ -1,6 +1,6 @@
 class Api::V1::Users::PostsController < Api::V1::Users::BaseController
   before_filter :authenticate_user!
-  before_action :set_website, only: [:index]
+  before_action :set_website, only: [:index, :show]
   before_action :set_post, only: [:show]
   
   respond_to :json
@@ -21,10 +21,14 @@ class Api::V1::Users::PostsController < Api::V1::Users::BaseController
 
   private  
     def set_post
-      @post = Post.find(params[:id])
+      if params[:id] == "latest"
+        @post = @website.posts.desc(:updated_at).first
+      else
+        @post = Post.find(params[:id])
+      end
     end
     
     def set_website
-      @website = Website.find(params[:website_id])
+      @website = Website.find(params[:website_id]) if params[:website_id]
     end
 end

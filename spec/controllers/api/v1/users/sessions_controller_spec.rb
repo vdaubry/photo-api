@@ -5,24 +5,26 @@ describe Api::V1::Users::SessionsController do
   describe "sign_in" do
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      FactoryGirl.create(:user, :email => "foo@bar.com", :password => "azerty")
+      @user = FactoryGirl.create(:user, :email => "foo@bar.com", :password => "azerty")
     end
 
     context "valid credentials" do  
       it "returns an authentication_token" do
         post :create, :users => {:email => "foo@bar.com", :password => "azerty"}, :format => :json
         
+        @user.reload
         response.code.should == "200"
-        JSON.parse(response.body)["users"]["token"].should_not == nil
+        JSON.parse(response.body)["users"]["token"].should == @user.authentication_token
+        JSON.parse(response.body)["users"]["id"].should == @user.id.to_s
       end
     end
 
     context "user has nil authentication_token" do  
       it "returns an authentication_token" do
-        FactoryGirl.create(:user, :email => "foo2@bar.com", :password => "azerty2", :authentication_token => nil)
+        user = FactoryGirl.create(:user, :email => "foo2@bar.com", :password => "azerty2", :authentication_token => nil)
         post :create, :users => {:email => "foo2@bar.com", :password => "azerty2"}, :format => :json
 
-        JSON.parse(response.body)["users"]["token"].should_not == nil
+        JSON.parse(response.body)["users"]["token"].should == user.reload.authentication_token
       end
     end    
 

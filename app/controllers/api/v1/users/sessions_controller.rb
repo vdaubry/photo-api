@@ -10,7 +10,7 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
 
     if user && user.valid_password?(params[:users][:password])
       user.assign_authentication_token!
-      render :status => 200, :json => {:users => {:token => user.authentication_token, :id => user.id}}
+      render :status => 200, :json => {:users => {:token => user.authentication_token, :id => user.id.to_s}}
     else 
       render :status => 400, :json => {:error => "invalid credentials : unknown email or wrong password"}
     end
