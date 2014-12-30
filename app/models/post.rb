@@ -8,6 +8,7 @@ class Post
   #field :banished, type: Boolean
   has_many :images
   has_one :user_image
+  has_one :user_post
   belongs_to :website
   
   index({website_id: 1, status: 1, updated_at: 1})

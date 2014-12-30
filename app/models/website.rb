@@ -4,6 +4,7 @@ class Website
   has_many :images
   has_many :posts
   has_one :user_image
+  has_one :user_post
 
   field :name, type: String
   field :url, type: String

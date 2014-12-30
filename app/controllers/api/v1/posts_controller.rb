@@ -9,7 +9,7 @@ class Api::V1::PostsController < Api::V1::BaseController
   def index
     params[:page] ||= 1
     params[:per] ||= 50
-    respond_with @website.posts.desc(:updated_at)
+    respond_with @website.posts.desc(:updated_at).page(params[:page]).per(params[:per])
   end
   
   def show

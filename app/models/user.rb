@@ -27,6 +27,7 @@ class User
   
   has_and_belongs_to_many :websites, inverse_of: nil, index: true
   has_many :user_images
+  has_many :user_posts
   
   validates_uniqueness_of :authentication_token
   
