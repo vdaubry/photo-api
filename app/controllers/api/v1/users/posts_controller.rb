@@ -14,14 +14,8 @@ class Api::V1::Users::PostsController < Api::V1::Users::BaseController
   end
   
   def show
-    user_post=current_user.user_posts.where(:post_id => @post.id).first
-    
-    if user_post.nil?
-      user_post= UserPost.new(:post => @post, :website => @website, :current_page => 1)
-      current_user.user_posts.push(user_post)
-    end
-    
-    respond_with @post, current_page: user_post.current_page, :root => "posts"
+    current_page = UserPost.getCurrentPage(current_user, @post)
+    respond_with @post, current_page: current_page, :root => "posts"
   end
 
 

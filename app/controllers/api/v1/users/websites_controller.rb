@@ -6,7 +6,6 @@ class Api::V1::Users::WebsitesController < Api::V1::Users::BaseController
     params[:page] ||= 1
     params[:per] ||= 50
     websites = current_user.websites.page(params[:page]).per(params[:per])
-    
     respond_with websites
   end
   

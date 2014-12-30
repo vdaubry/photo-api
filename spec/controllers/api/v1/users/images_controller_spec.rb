@@ -17,6 +17,12 @@ describe Api::V1::Users::ImagesController do
       JSON.parse(response.body)["images"].count.should == 2
       JSON.parse(response.body)["images"][0]["id"].should == img2.id.to_s
     end
+    
+    it "sets post current page" do
+      get 'index', :format => :json, :post_id => post.id, :user_id => @user.id, :page => 3
+      
+      @user.reload.user_posts.where(:post => post.id).first.current_page.should == 3
+    end
   end
   
 end

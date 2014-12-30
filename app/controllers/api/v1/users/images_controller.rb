@@ -11,9 +11,9 @@ class Api::V1::Users::ImagesController < Api::V1::Users::BaseController
     params[:per] ||= 50
     image_ids = current_user.user_images.where(:post => @post).map(&:image_id)
     images = Image.where(:id.in => image_ids).asc(:scrapped_at).page(params[:page]).per(params[:per])
+    UserPost.setCurrentPage(current_user, @post, params[:page])
     respond_with images
   end
-
 
   private  
     def set_post
