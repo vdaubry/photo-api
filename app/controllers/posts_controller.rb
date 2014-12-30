@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_website, only: [:index, :show]
-  #before_action :set_post, only: [:index]
+  before_action :set_post, only: [:show]
   respond_to :json
 
   rescue_from Mongoid::Errors::DocumentNotFound, :with => :render_404
@@ -13,13 +13,7 @@ class PostsController < ApplicationController
   end
   
   def show
-    if params[:id] == "latest"
-      post = @website.posts.desc(:updated_at).first
-    else
-      post = Post.find(params[:id])
-    end
-    
-    respond_with post, :root => "posts"
+    respond_with @post, :root => "posts"
   end
 
   # def destroy
@@ -62,10 +56,13 @@ class PostsController < ApplicationController
   # end
 
 	private
-	# Use callbacks to share common setup or constraints between actions.
-	# def set_post
-	#   @post = @website.posts.find(params[:id])
-	# end
+	def set_post
+	  if params[:id] == "latest"
+      @post = @website.posts.desc(:updated_at).first
+    else
+      @post = Post.find(params[:id])
+    end
+	end
 
   def set_website
     @website = Website.find(params[:website_id])
