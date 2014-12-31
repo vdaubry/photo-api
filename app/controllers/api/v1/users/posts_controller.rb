@@ -10,12 +10,13 @@ class Api::V1::Users::PostsController < Api::V1::Users::BaseController
   def index
     params[:page] ||= 1
     params[:per] ||= 50
-    respond_with @website.posts.desc(:updated_at).page(params[:page]).per(params[:per])
+    posts = @website.posts.desc(:updated_at).page(params[:page]).per(params[:per])
+    respond_with ActiveModel::ArraySerializer.new(posts, {:current_user => current_user, :root => "posts"}).to_json
   end
   
   def show
     current_page = UserPost.getCurrentPage(current_user, @post)
-    respond_with @post, current_page: current_page, :root => "posts"
+    respond_with PostSerializer.new(@post, {current_page: current_page, :current_user => current_user, :root => "posts"}).to_json
   end
   
   def update

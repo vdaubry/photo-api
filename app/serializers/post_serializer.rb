@@ -14,6 +14,13 @@ class PostSerializer < ActiveModel::Serializer
   end
   
   def images_count
-    object.images.count
+    if @options[:current_user]
+      current_user = @options[:current_user]
+      user_post = current_user.user_posts.where(:post => object).first
+      user_post.nil? ? object.images.count : object.images.count - user_post.images_seen_count
+    else
+      object.images.count
+    end
+    
   end
 end

@@ -28,9 +28,9 @@ describe Api::V1::Users::PostsController do
     
     context "user already visited post" do
       it "returns post with current page = 4" do
-        @user.user_posts = [UserPost.create(:website => website, :post => post, :current_page => 4)]
+        FactoryGirl.create(:user_post, :user => @user, :website => website, :post => post, :current_page => 4)
         get 'show', :format => :json, :id => post.id, :website_id => website.id, :user_id => @user.id
-        
+      
         JSON.parse(response.body)["posts"]["current_page"].should == 4
       end
     end

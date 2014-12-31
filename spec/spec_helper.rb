@@ -2,7 +2,7 @@ require 'devise'
 require_relative 'authent_macros'
 
 RSpec.configure do |config|
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers
   config.extend AuthentMacros, :type => :controller
   
   config.order = :random
