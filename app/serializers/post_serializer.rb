@@ -1,5 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :name, :source_url, :current_page, :images_count
+  attributes :id, :name, :source_url, :current_page, :images_count, :favorite_count
 
   def id
     object.id.to_s
@@ -13,6 +13,15 @@ class PostSerializer < ActiveModel::Serializer
     @options[:current_page]
   end
   
+  def favorite_count
+    if @options[:current_user]
+      current_user = @options[:current_user]
+      current_user.user_images.where(:post => object).count
+    else
+      0
+    end
+  end
+  
   def images_count
     if @options[:current_user]
       current_user = @options[:current_user]
@@ -21,6 +30,5 @@ class PostSerializer < ActiveModel::Serializer
     else
       object.images.count
     end
-    
   end
 end
