@@ -1,7 +1,7 @@
 class Api::V1::Users::PostsController < Api::V1::Users::BaseController
   before_filter :authenticate_user!
   before_action :set_website, only: [:index, :show]
-  before_action :set_post, only: [:show]
+  before_action :set_post, only: [:show, :update]
   
   respond_to :json
 
@@ -17,7 +17,19 @@ class Api::V1::Users::PostsController < Api::V1::Users::BaseController
     current_page = UserPost.getCurrentPage(current_user, @post)
     respond_with @post, current_page: current_page, :root => "posts"
   end
-
+  
+  def update
+    user_post = UserPost.setCurrentPage(current_user, @post, params[:current_page])
+    old_pages_count = user_post.pages_seen && user_post.pages_seen.count
+    #atomic update of array (to avoid race conditions)
+    user_post.add_to_set(pages_seen: params[:current_page])
+    
+    if user_post.pages_seen.count != old_pages_count
+      user_post.inc(images_seen_count: params[:images_seen]) if params[:images_seen]
+    end
+    
+    render :status => 204, nothing: true
+  end
 
   private  
     def set_post

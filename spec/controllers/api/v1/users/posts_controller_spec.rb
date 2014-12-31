@@ -47,4 +47,58 @@ describe Api::V1::Users::PostsController do
     end
   end
   
+  describe "PUT update" do
+    it "sets post current page" do
+      put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3
+      
+      @user.reload.user_posts.where(:post => post.id).first.current_page.should == 3
+    end
+    
+    context "first time user sees page" do
+      before(:each) do
+        @user_post = UserPost.create(:website => website, 
+          :post => post, 
+          :user => @user, 
+          :current_page => 3, 
+          :pages_seen => [], 
+          :images_seen_count => 52)
+      end
+      
+      it "adds current page to pages seen" do
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        
+        @user_post.reload.pages_seen.should == [3]
+      end
+      
+      it "adds current page to pages seen" do
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        
+        @user_post.reload.images_seen_count.should == 102
+      end
+    end
+    
+    context "second time user sees page" do
+      before(:each) do
+        @user_post = UserPost.create(:website => website, 
+          :post => post, 
+          :user => @user, 
+          :current_page => 3, 
+          :pages_seen => [3], 
+          :images_seen_count => 52)
+      end
+      
+      it "doesn't add duplicate page to pages seen" do
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        
+        @user_post.reload.pages_seen.should == [3]
+      end
+      
+      it "doesn't increase images_seen_count" do
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        
+        @user_post.reload.images_seen_count.should == 52
+      end
+    end
+  end
+  
 end

@@ -5,7 +5,9 @@ class UserPost
   belongs_to :website, index: true
   belongs_to :user
   
-  field :current_page, type: Integer
+  field :pages_seen, type: Array, default: []
+  field :images_seen_count, type: Integer, default: 0
+  field :current_page, type: Integer, default: 0
   
   def self.getUserPost(user, post)
     user_post=user.user_posts.where(:post_id => post.id).first
@@ -20,6 +22,7 @@ class UserPost
   def self.setCurrentPage(user, post, page)
     user_post=self.getUserPost(user, post)
     user_post.update_attributes(:current_page => page)
+    user_post
   end
   
   def self.getCurrentPage(user, post)

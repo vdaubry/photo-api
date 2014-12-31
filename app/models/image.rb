@@ -3,12 +3,6 @@ require 'open-uri'
 class Image
   extend Image::RemoteFile
 
-  TO_KEEP_STATUS="TO_KEEP_STATUS"
-  TO_SORT_STATUS="TO_SORT_STATUS"
-  TO_DELETE_STATUS="TO_DELETE_STATUS"
-  DELETED_STATUS="DELETED_STATUS"
-  KEPT_STATUS="KEPT_STATUS"
-
   THUMBS_FORMAT="300x300"
 
   include Mongoid::Document
@@ -16,16 +10,12 @@ class Image
   belongs_to :website, index: true
   belongs_to :post, index: true
   has_one :user_image
-  index({ website_id: 1, status: 1 })
   index({ image_hash: 1}, { unique: true, drop_dups: true })
   index({ source_url: 1}, { unique: true, drop_dups: true })
   index({ key: 1}, { unique: true, drop_dups: true })
-  
-  delegate :update_post_status, :to => :post
 
   field :key, type: String
   field :image_hash, type: String
-  field :status, type: String
   field :file_size, type: Integer
   field :width, type: Integer
   field :height, type: Integer
@@ -33,16 +23,11 @@ class Image
   field :hosting_url, type: String
   field :scrapped_at, type: DateTime
 
-  validates :key, :image_hash, :status, :file_size, :width, :height, :source_url, :website, :scrapped_at, presence: true, allow_blank: false, allow_nil: false
-  validates_inclusion_of :status, in: [ TO_KEEP_STATUS, TO_SORT_STATUS, TO_DELETE_STATUS, DELETED_STATUS, KEPT_STATUS ]
+  validates :key, :image_hash, :file_size, :width, :height, :source_url, :website, :scrapped_at, presence: true, allow_blank: false, allow_nil: false
   validates_uniqueness_of :image_hash, :source_url, :key
   validate :forbidden_image_hash
 
   before_create :check_image_size
-
-  scope :to_sort, -> {where(:status => TO_SORT_STATUS)}
-  scope :to_keep, -> {where(:status => TO_KEEP_STATUS)}
-  scope :to_delete, -> {where(:status => TO_DELETE_STATUS)}
 
   paginates_per 50
 
@@ -69,6 +54,7 @@ class Image
   def check_image_size
     width_too_small = width && width < 300
     height_too_small = height && height < 300
-    self.status=TO_DELETE_STATUS if width_too_small or height_too_small
+    errors.add(:image_hash, "Image cannot be saved, size too small : width = #{width} , height = #{height}")
+    Rails.logger.error("Received a too smal image : width = #{width} , height = #{height}")
   end
 end

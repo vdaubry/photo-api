@@ -14,11 +14,11 @@ PhotoApi::Application.routes.draw do
       #User routes
       resources :users, :only => :none do
         resources :websites, :only => [:index, :create], :controller => 'users/websites' do
-          resources :posts, :only => [:show, :index], :controller => 'users/posts'
+          resources :posts, :only => [:show, :index, :update], :controller => 'users/posts'
         end
       
-        resources :posts, :only => :none do
-          resources :images, :only => [:index], :controller => 'users/images'
+        resources :posts, :only => :none, :controller => 'users/posts' do
+          resources :images, :only => [:index, :update], :controller => 'users/images'
         end
       end
       
