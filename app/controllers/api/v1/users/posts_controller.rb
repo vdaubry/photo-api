@@ -20,16 +20,17 @@ class Api::V1::Users::PostsController < Api::V1::Users::BaseController
   end
   
   def update
-    user_post = UserPost.setCurrentPage(current_user, @post, params[:current_page])
+    post = params[:post]
+    user_post = UserPost.setCurrentPage(current_user, @post, post[:current_page])
     old_pages_count = user_post.pages_seen && user_post.pages_seen.count
     #atomic update of array (to avoid race conditions)
-    user_post.add_to_set(pages_seen: params[:current_page])
+    user_post.add_to_set(pages_seen: post[:current_page])
     
     if user_post.pages_seen.count != old_pages_count
-      user_post.inc(images_seen_count: params[:images_seen]) if params[:images_seen]
+      user_post.inc(images_seen_count: post[:images_seen]) if post[:images_seen]
     end
     
-    render :status => 204, nothing: true
+    render json: PostSerializer.new(@post, {current_page: user_post.current_page, :current_user => current_user, :root => "posts"}).to_json
   end
 
   private  

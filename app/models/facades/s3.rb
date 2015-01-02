@@ -2,6 +2,8 @@ require 'aws-sdk'
 
 module Facades
   class S3
+    attr_accessor :bucket
+    
     def initialize(bucket)
       AWS.config({
       :access_key_id => ENV["AWS_ACCESS_KEY_ID"],

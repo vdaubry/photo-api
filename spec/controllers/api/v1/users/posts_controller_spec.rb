@@ -49,7 +49,7 @@ describe Api::V1::Users::PostsController do
   
   describe "PUT update" do
     it "sets post current page" do
-      put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3
+      put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => {:current_page => 3}
       
       @user.reload.user_posts.where(:post => post.id).first.current_page.should == 3
     end
@@ -65,15 +65,19 @@ describe Api::V1::Users::PostsController do
       end
       
       it "adds current page to pages seen" do
-        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
-        
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => { :current_page => 3, :images_seen => 50}
         @user_post.reload.pages_seen.should == [3]
       end
       
       it "adds current page to pages seen" do
-        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
-        
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => { :current_page => 3, :images_seen => 50}
         @user_post.reload.images_seen_count.should == 102
+      end
+      
+      it "returns post" do
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => { :current_page => 3, :images_seen => 50}
+        
+        JSON.parse(response.body)["posts"].should_not == nil
       end
     end
     
@@ -88,13 +92,13 @@ describe Api::V1::Users::PostsController do
       end
       
       it "doesn't add duplicate page to pages seen" do
-        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => {:current_page => 3, :images_seen => 50}
         
         @user_post.reload.pages_seen.should == [3]
       end
       
       it "doesn't increase images_seen_count" do
-        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :current_page => 3, :images_seen => 50
+        put 'update', :format => :json, :website_id => website.id, :id => post.id, :user_id => @user.id, :post => {:current_page => 3, :images_seen => 50}
         
         @user_post.reload.images_seen_count.should == 52
       end
