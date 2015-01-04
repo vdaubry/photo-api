@@ -9,7 +9,8 @@ class Image
   DELETED_STATUS="DELETED_STATUS"
   KEPT_STATUS="KEPT_STATUS"
 
-  THUMBS_FORMAT="300x300"
+  THUMBNAIL_FORMAT="300x300"
+  THUMBNAIL_FORMAT2X="600x600"
 
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -52,8 +53,12 @@ class Image
 
   end
 
-  def thumbnail_url
-    Facades::S3.new(IMAGE_BUCKET).url(Image.thumbnail_path(key, THUMBS_FORMAT)).to_s
+  def thumbnail1X_url
+    Facades::S3.new(IMAGE_BUCKET).url(Image.thumbnail_path(key, THUMBNAIL_FORMAT)).to_s
+  end
+  
+  def thumbnail2X_url
+    Facades::S3.new(IMAGE_BUCKET).url(Image.thumbnail_path(key, THUMBNAIL_FORMAT2X)).to_s
   end
 
   def fullsize_url
