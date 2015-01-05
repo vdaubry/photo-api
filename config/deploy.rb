@@ -68,13 +68,6 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart resque worker'
-  task :notify_restart do
-    on roles(:app) do
-      execute "touch #{current_path}/tmp/restart.txt"
-    end
-  end
-
   desc 'Start unicorn'
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
@@ -100,5 +93,4 @@ namespace :deploy do
   before :compile_assets, :copy_production
   after :publishing, :stop
   after :publishing, :start
-  after :published, :notify_restart
 end

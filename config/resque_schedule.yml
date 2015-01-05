@@ -1,3 +1,0 @@
-PostCleaner:
-  cron: "* * * * *"
-  description: set empty post to SORTED status

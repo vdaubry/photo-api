@@ -1,3 +1,2 @@
 web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
 log: tail -f log/development.log
-resque: bundle exec rake resque:work QUEUE=*

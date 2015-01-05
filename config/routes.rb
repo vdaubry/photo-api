@@ -1,5 +1,3 @@
-require 'resque/server'
-
 PhotoApi::Application.routes.draw do
     
   scope '/api/v1' do
@@ -75,6 +73,4 @@ PhotoApi::Application.routes.draw do
   #     end
   #   end
   # end
-
-  mount Resque::Server.new, at: "/resque"
 end
